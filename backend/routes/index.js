@@ -3,7 +3,7 @@ const router = express.Router();
 const apiRouter = require("./api");
 
 router.get("/hello/world", (req, res) => {
-  res.cookie("CSRF-TOKEN", req.csrfToken());
+  res.cookie("XSRF-TOKEN", req.csrfToken());
   res.send("Hello World!");
 });
 
