@@ -35,6 +35,28 @@ export const restoreUser = () => async (dispatch) => {
   return res;
 };
 
+export const signup = (user) => async (dispatch) => {
+  const { username, email, password } = user;
+  const response = await fetch("/api/users", {
+    method: "POST",
+    body: JSON.stringify({
+      username,
+      email,
+      password,
+    }),
+  });
+  dispatch(setUser(response.data.user));
+  return response;
+};
+
+export const logout = () => async (dispatch) => {
+  const response = await fetch("/api/session", {
+    method: "DELETE",
+  });
+  dispatch(removeUser());
+  return response;
+};
+
 const sessionReducer = (state = { user: null }, action) => {
   switch (action.type) {
     case SET_USER:
