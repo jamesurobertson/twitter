@@ -8,19 +8,14 @@ module.exports = {
       "Users",
       [
         {
-          email: "demo@twitter.com",
           username: "DemoUser",
+          firstName: "Demo",
+          lastName: "User",
+          email: "demo@twitter.com",
+          bio: "I am the demo user!",
+          profileImageUrl: "google.com",
+          bannerImageUrl: "google.com",
           hashedPassword: bcrypt.hashSync("password"),
-        },
-        {
-          email: faker.internet.email(),
-          username: "FakeUser1",
-          hashedPassword: bcrypt.hashSync(faker.internet.password()),
-        },
-        {
-          email: faker.internet.email(),
-          username: "FakeUser2",
-          hashedPassword: bcrypt.hashSync(faker.internet.password()),
         },
       ],
       {}

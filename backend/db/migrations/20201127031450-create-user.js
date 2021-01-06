@@ -13,22 +13,38 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
+      firstName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      lastName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       email: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
-      hashedPassword: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
       bio: {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      profileImageUrl: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      bannerImageUrl: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       website: {
         type: Sequelize.STRING,
         allowNull: true,
+      },
+      hashedPassword: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

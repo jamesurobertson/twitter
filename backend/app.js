@@ -5,6 +5,7 @@ const csurf = require("csurf");
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const { ValidationError } = require("sequelize");
+const bodyParser = require("body-parser");
 
 const { environment } = require("./config");
 const isProduction = environment === "production";
@@ -14,7 +15,8 @@ const routes = require("./routes");
 
 app.use(morgan("dev"));
 app.use(cookieParser());
-app.use(express.json());
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
+app.use(bodyParser.json({ limit: "50mb" }));
 
 if (!isProduction) app.use(cors());
 

@@ -11,12 +11,26 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: [3, 30],
+          len: [2, 30],
           isNotEmail(value) {
             if (Validator.isEmail(value)) {
               throw new Error("Cannot be an email.");
             }
           },
+        },
+      },
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          len: [2, 256],
+        },
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          len: [2, 256],
         },
       },
       email: {
@@ -26,13 +40,6 @@ module.exports = (sequelize, DataTypes) => {
           len: [3, 256],
         },
       },
-      hashedPassword: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-          len: [60, 60],
-        },
-      },
       bio: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -40,11 +47,26 @@ module.exports = (sequelize, DataTypes) => {
           len: [1, 256],
         },
       },
+      profileImageUrl: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      bannerImageUrl: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       website: {
         type: DataTypes.STRING,
         allowNull: true,
         validate: {
           len: [1, 256],
+        },
+      },
+      hashedPassword: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          len: [60, 60],
         },
       },
     },
@@ -66,8 +88,28 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.prototype.toSafeObject = function () {
-    const { id, username, email } = this;
-    return { id, username, email };
+    const {
+      id,
+      username,
+      email,
+      firstName,
+      lastName,
+      bio,
+      website,
+      profileImageUrl,
+      bannerImageUrl,
+    } = this;
+    return {
+      id,
+      username,
+      email,
+      firstName,
+      lastName,
+      bio,
+      website,
+      profileImageUrl,
+      bannerImageUrl,
+    };
   };
 
   User.prototype.validatePassword = function (password) {
@@ -94,6 +136,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.signup = async function ({ username, email, password }) {
+      // TODO UPDATE CREATE AND IMPORTS
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({
       username,
@@ -104,6 +147,11 @@ module.exports = (sequelize, DataTypes) => {
   };
   User.associate = function (models) {
     // associations can be defined here
+    User.belongsToMany(models.Conversation, {
+      through: models.UserConversation,
+      otherKey: "conversationId",
+      foreignKey: "userId",
+    });
   };
   return User;
 };

@@ -11,7 +11,6 @@ const router = express.Router();
 const validateLogin = [
   check("credential")
     .exists({ checkFalsy: true })
-    .notEmpty()
     .withMessage("Please provide a valid email or username."),
   check("password")
     .exists({ checkFalsy: true })
@@ -24,7 +23,7 @@ router.post(
   validateLogin,
   asyncHandler(async (req, res, next) => {
     const { credential, password } = req.body;
-
+    console.log("we got hereeee");
     const user = await User.login({ credential, password });
 
     if (!user) {

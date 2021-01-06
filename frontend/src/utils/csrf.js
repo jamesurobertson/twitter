@@ -10,8 +10,12 @@ export async function fetch(url, options = {}) {
   // "application/json", and set the "CSRF-TOKEN" header to the value of the
   // "XSRF-TOKEN" cookie
   if (options.method.toUpperCase() !== "GET") {
-    options.headers["Content-Type"] =
-      options.headers["Content-Type"] || "application/json";
+    if (options.headers["Content-Type"] === "multipart/form-data") {
+      delete options.headers["Content-Type"];
+    } else {
+      options.headers["Content-Type"] =
+        options.headers["Content-Type"] || "application/json";
+    }
     options.headers["XSRF-Token"] = Cookies.get("XSRF-TOKEN");
   }
   // call the default window's fetch with the url and the options passed in
@@ -30,7 +34,7 @@ export async function fetch(url, options = {}) {
   if (res.status >= 400) throw res;
 
   // if the response status code is under 400, then return the response to the
-  // next promise chain
+  // next promise
   return res;
 }
 

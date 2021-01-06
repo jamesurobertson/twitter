@@ -5,3 +5,4 @@ frontend/.env
 frontend/build
 frontend/.eslintcache
 .DS_Store
+backend/credentials.json
