@@ -6,8 +6,7 @@ import { Provider } from "react-redux";
 import App from "./App";
 
 import configureStore from "./store";
-import { restoreCSRF, fetch } from "./utils/csrf";
-import * as sessionActions from "./store/session";
+import { restoreCSRF } from "./utils/csrf";
 
 const store = configureStore();
 if (process.env.NODE_ENV !== "production") {

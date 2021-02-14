@@ -1,5 +1,3 @@
-import { Route, Switch } from "react-router-dom";
-import Explore from "../Explore";
 import Feed from "../Feed";
 
 const Home = () => (

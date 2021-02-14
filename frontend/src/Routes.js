@@ -1,7 +1,5 @@
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import Navbar from "./components/Navbar";
 import Explore from "./components/Explore";
 import Notifications from "./components/Notifications";
@@ -29,7 +27,7 @@ const Routes = () => (
         <Route path="/bookmarks">
           <Bookmarks />
         </Route>
-        <Route path="/profile">
+        <Route path="/:username">
           <Profile />
         </Route>
         <Route path="/more">
