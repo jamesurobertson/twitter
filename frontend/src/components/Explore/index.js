@@ -1,3 +1,10 @@
-const Explore = () => <div className="w-3/4"> Explore</div>;
+import MainHeader from "../MainHeader";
+
+const Explore = () => (
+  <div>
+    {" "}
+    <MainHeader title="Explore" />
+  </div>
+);
 
 export default Explore;

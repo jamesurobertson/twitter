@@ -1,7 +1,9 @@
 import Feed from "../Feed";
+import Header from "../MainHeader";
 
 const Home = () => (
-  <div className="w-7/12 mx-auto flex min-h-screen bg-blue-500">
+  <div className="flex-col">
+    <Header title="Home" />
     <Feed />
   </div>
 );
