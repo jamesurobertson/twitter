@@ -1,7 +1,7 @@
 const express = require("express");
 const asyncHandler = require("express-async-handler");
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
-const { User } = require("../../db/models");
+const { User, Follow, Tweet } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const { singleMulterUpload, singlePublicFileUpload } = require("../../awsS3");
@@ -25,10 +25,17 @@ router.post(
   validateSignup,
   asyncHandler(async (req, res) => {
     const { email, password, username } = req.body;
-    const user = await User.signup({ email, username, password });
+    const user = await User.signup({
+      email,
+      username,
+      password,
+      profileImageUrl: "google.com",
+      bannerImageUrl: "google.com",
+    });
 
     setTokenCookie(res, user);
 
+    await user.reload({ include: Follow });
     return res.json({
       user,
     });
@@ -48,6 +55,22 @@ router.post(
     );
 
     res.sendStatus(200).end();
+  })
+);
+
+router.get(
+  "/:username",
+  asyncHandler(async (req, res) => {
+    const username = req.params.username;
+    const user = await User.findOne({
+      where: { username },
+      include: [
+        Follow,
+        { model: Tweet, order: [["id", "DESC"]], limit: 10, include: User },
+      ],
+    });
+
+    res.json({ user });
   })
 );
 
