@@ -6,7 +6,6 @@ import Notifications from "./components/Notifications";
 import Messages from "./components/Messages";
 import Bookmarks from "./components/Bookmarks";
 import Profile from "./components/Profile";
-import Feed from "./components/Feed";
 
 const Routes = () => (
   <div className="w-7/12 mx-auto flex min-h-screen">

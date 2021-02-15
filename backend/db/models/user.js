@@ -136,7 +136,7 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   User.signup = async function ({ username, email, password }) {
-      // TODO UPDATE CREATE AND IMPORTS
+    // TODO UPDATE CREATE AND IMPORTS
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({
       username,
@@ -149,9 +149,15 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     User.belongsToMany(models.Conversation, {
       through: models.UserConversation,
+      // might not need bottom 2, testing out.
       otherKey: "conversationId",
       foreignKey: "userId",
     });
+    User.hasMany(models.Tweet, { foreignKey: "userId" });
+    User.hasMany(models.Follow, { foreignKey: "userId" });
+    User.hasMany(models.Bookmark, { foreignKey: "userId" });
+    User.hasMany(models.Message, { foreignKey: "userId" });
+    User.hasMany(models.Like, { foreignKey: "userId" });
   };
   return User;
 };
