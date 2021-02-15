@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTweets } from "../../store/tweets";
+import Tweet from "../Tweet";
 
 const Feed = () => {
   const tweets = useSelector((state) => state.tweets);
@@ -12,15 +13,9 @@ const Feed = () => {
   if (!tweets) return null;
   return (
     <div className="w-3/4">
-      {tweets.map((tweet) => {
-        const { User, content, id } = tweet;
-        return (
-          <div key={id}>
-            <div>{User.username}</div>
-            <div>{content}</div>
-          </div>
-        );
-      })}
+      {tweets.map((tweet) => (
+        <Tweet key={tweet.id} tweet={tweet} />
+      ))}
     </div>
   );
 };
