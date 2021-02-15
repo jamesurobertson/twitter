@@ -1,16 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTweets } from "../../store/tweets";
+import { getFeedTweets } from "../../store/tweets";
 import Tweet from "../Tweet";
 
 const Feed = () => {
+  const [loading, setLoading] = useState(true);
   const tweets = useSelector((state) => state.tweets);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getTweets());
+    dispatch(getFeedTweets()).then(() => setLoading(false));
   }, [dispatch]);
 
-  if (!tweets) return null;
+  // TODO: message if you don't follow anyone or don't have any of your own tweets.
+  if (!tweets || loading) return null;
   return (
     <div className="w-3/4">
       {tweets.map((tweet) => (
