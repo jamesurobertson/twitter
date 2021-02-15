@@ -14,7 +14,7 @@ const Feed = () => {
   // TODO: message if you don't follow anyone or don't have any of your own tweets.
   if (!tweets || loading) return null;
   return (
-    <div className="w-3/4">
+    <div className="w-full">
       {tweets.map((tweet) => (
         <Tweet key={tweet.id} tweet={tweet} />
       ))}

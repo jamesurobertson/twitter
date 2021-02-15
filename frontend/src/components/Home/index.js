@@ -5,7 +5,7 @@ import TweetInput from "./TweetInput";
 const Home = () => (
   <div className="flex-col">
     <Header title="Home" />
-    <div className="m-4">
+    <div>
       <TweetInput />
       <Feed />
     </div>
