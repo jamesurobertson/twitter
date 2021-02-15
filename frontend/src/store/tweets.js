@@ -29,18 +29,16 @@ export const getTweets = () => async (dispatch) => {
   dispatch(addTweets(tweets));
 };
 
-const tweetsReducer = (state = {}, action) => {
+const tweetsReducer = (state = [], action) => {
   let newState;
   switch (action.type) {
     case ADD_TWEET:
-      return {
-        ...state,
-        [action.payload.id]: action.payload,
-      };
+      return [action.payload, ...state];
     case GET_TWEETS:
+      console.log(action.payload);
       newState = {};
       action.payload.forEach((tweet) => (newState[tweet.id] = tweet));
-      return newState;
+      return action.payload;
     default:
       return state;
   }

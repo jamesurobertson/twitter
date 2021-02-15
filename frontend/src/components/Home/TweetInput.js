@@ -9,6 +9,7 @@ const TweetInput = () => {
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(postTweet({ content }));
+    setContent("");
   };
   // todo: find some library to change from input type to be more dynamic.
   return (

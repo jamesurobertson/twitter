@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTweets } from "../../store/tweets";
 
 const Feed = () => {
-  const tweets = useSelector((state) => Object.values(state.tweets));
+  const tweets = useSelector((state) => state.tweets);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTweets());
