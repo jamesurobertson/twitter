@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import session from "./session";
 import tweets from "./tweets";
-import currentProfile from './currentProfile'
+import currentProfile from "./currentProfile";
 
 const rootReducer = combineReducers({
   session,

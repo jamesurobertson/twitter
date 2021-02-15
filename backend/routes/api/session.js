@@ -53,7 +53,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const { user } = req;
     if (user) {
-      await user.reload({ include: Follow });
+      await user.reload({ include: ["follows", "followers"] });
       return res.json({
         user,
       });

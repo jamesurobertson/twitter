@@ -35,7 +35,7 @@ router.post(
 
     setTokenCookie(res, user);
 
-    await user.reload({ include: Follow });
+    await user.reload({ include: "follows" });
     return res.json({
       user,
     });
@@ -65,7 +65,8 @@ router.get(
     const user = await User.findOne({
       where: { username },
       include: [
-        Follow,
+        "followers",
+        "follows",
         { model: Tweet, order: [["id", "DESC"]], limit: 10, include: User },
       ],
     });

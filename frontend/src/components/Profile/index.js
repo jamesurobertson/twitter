@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getProfileData } from "../../store/currentProfile";
+import {
+  getProfileData,
+  postFollowUser,
+  deleteFollow,
+} from "../../store/currentProfile";
 import MainHeader from "../MainHeader";
 import Tweet from "../Tweet";
 
@@ -20,23 +24,24 @@ const Profle = () => {
   }, [dispatch, username]);
 
   useEffect(() => {
+    console.log("currentProfile changed");
     setFollowsUser(
-      currentProfile.Follows.some((follow) => follow.id === user.id)
+      currentProfile.followers.some((follower) => follower.userId === user.id)
     );
-  }, [username, currentProfile, user]);
+  }, [currentProfile, user]);
 
   const unfollowUser = () => {
-    setFollowsUser(false);
+    dispatch(deleteFollow(currentProfile.id));
   };
 
   const followUser = () => {
-    setFollowsUser(true);
+    dispatch(postFollowUser(currentProfile.id));
   };
 
   if (loading) return null;
   return (
     <div>
-      <MainHeader title={`${user.username}'s Profile!`} />
+      <MainHeader title={`${currentProfile.username}'s Profile!`} />
       {user.username !== username && (
         <button onClick={followsUser ? unfollowUser : followUser}>
           {followsUser ? "Unfollow" : "Follow"} {username}
