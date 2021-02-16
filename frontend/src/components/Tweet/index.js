@@ -1,7 +1,14 @@
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import TweetActions from "./TweetActions";
 
 const Tweet = ({ tweet }) => {
+  const dispatch = useDispatch();
+
+  const likeTweet = (id) => {
+    console.log(id);
+  };
+
   function timeSince(date) {
     var seconds = Math.floor((new Date() - new Date(date)) / 1000);
 
@@ -50,7 +57,10 @@ const Tweet = ({ tweet }) => {
             </div>
           </Link>
           <div>{tweet.content}</div>
-          <TweetActions likes={tweet.likes} />
+          <TweetActions
+            likes={tweet.likes}
+            likeTweet={() => likeTweet(tweet.id)}
+          />
         </div>
       </div>
     </div>
