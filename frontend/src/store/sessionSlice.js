@@ -7,11 +7,9 @@ const sessionSlice = createSlice({
   reducers: {
     setUser(state, action) {
       state.user = action.payload;
-      return state;
     },
     removeUser(state, action) {
       state.user = null;
-      return state;
     },
   },
 });
