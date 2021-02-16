@@ -1,4 +1,6 @@
 "use strict";
+
+const { Like } = require("../models");
 module.exports = (sequelize, DataTypes) => {
   const Tweet = sequelize.define(
     "Tweet",
@@ -23,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Tweet.belongsTo(models.User, { foreignKey: "userId" });
     Tweet.hasMany(models.Bookmark, { foreignKey: "tweetId" });
-    Tweet.hasMany(models.Like, { foreignKey: "tweetId" });
+    Tweet.hasMany(models.Like, { foreignKey: "tweetId", as: "likes" });
   };
   return Tweet;
 };

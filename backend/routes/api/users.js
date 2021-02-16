@@ -67,7 +67,12 @@ router.get(
       include: [
         "followers",
         "follows",
-        { model: Tweet, order: [["id", "DESC"]], limit: 10, include: User },
+        {
+          model: Tweet,
+          order: [["id", "DESC"]],
+          limit: 10,
+          include: [User, "likes"],
+        },
       ],
     });
 

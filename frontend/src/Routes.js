@@ -8,10 +8,10 @@ import Bookmarks from "./components/Bookmarks";
 import Profile from "./components/Profile";
 
 const Routes = () => (
-  <div className=" flex min-h-screen">
+  <div className=" flex min-h-screen ">
     <BrowserRouter>
       <Navbar />
-      <div className="border w-full">
+      <div className="border w-2/6">
         <Switch>
           <Route path="/home">
             <Home />

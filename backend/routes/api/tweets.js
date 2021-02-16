@@ -8,7 +8,7 @@ const {
   restoreUser,
   requireAuth,
 } = require("../../utils/auth");
-const { Tweet, User, Sequelize } = require("../../db/models");
+const { Tweet, User, Like } = require("../../db/models");
 const { Op } = require("sequelize");
 
 const router = express.Router();
@@ -31,7 +31,7 @@ router.get(
           { userId: user.id },
         ],
       },
-      include: User,
+      include: [User, "likes"],
     });
     res.json({ tweets });
   })

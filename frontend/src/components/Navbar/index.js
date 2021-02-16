@@ -12,7 +12,7 @@ import NavItem from "./NavItem";
 const Navbar = () => {
   const user = useSelector((state) => state.session.user.username);
   return (
-    <div className="w-1/4 flex-col bg-white p-3 h">
+    <div className="w-1/6 flex-col bg-white p-3 h">
       <NavLink to="/home">
         <NavItem title="Home" Icon={AiOutlineHome} />
       </NavLink>
