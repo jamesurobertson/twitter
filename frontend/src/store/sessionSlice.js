@@ -1,21 +1,22 @@
 import { csrfFetch } from "../utils/csrf";
+import { createSlice } from "@reduxjs/toolkit";
 
-const SET_USER = "SET_USER";
-const REMOVE_USER = "REMOVE_USER";
+const sessionSlice = createSlice({
+  name: "session",
+  initialState: { user: null },
+  reducers: {
+    setUser(state, action) {
+      state.user = action.payload;
+      return state;
+    },
+    removeUser(state, action) {
+      state.user = null;
+      return state;
+    },
+  },
+});
 
-const setUser = (payload) => {
-  return {
-    type: SET_USER,
-    payload,
-  };
-};
-
-const removeUser = (payload) => {
-  return {
-    type: REMOVE_USER,
-    payload,
-  };
-};
+const { setUser, removeUser } = sessionSlice.actions;
 
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
@@ -61,15 +62,4 @@ export const logout = () => async (dispatch) => {
   return res;
 };
 
-const sessionReducer = (state = { user: null }, action) => {
-  switch (action.type) {
-    case SET_USER:
-      return { ...state, user: action.payload };
-    case REMOVE_USER:
-      return { ...state, user: null };
-    default:
-      return state;
-  }
-};
-
-export default sessionReducer;
+export default sessionSlice.reducer;

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Routes from "./Routes";
 import { useDispatch, useSelector } from "react-redux";
-import { restoreUser } from "./store/session";
+import { restoreUser } from "./store/sessionSlice";
 import Auth from "./components/Auth";
 
 const App = () => {
