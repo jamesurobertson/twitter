@@ -4,19 +4,19 @@ const CHANGE_PROFILE = "currentProfile/CHANGE_PROFILE";
 const ADD_FOLLOW = "currentProfile/ADD_FOLLOW";
 const REMOVE_FOLLOW = "currentProfile/REMOVE_FOLLOW";
 
-const setProfile = (user) => ({
+const setProfile = (payload) => ({
   type: CHANGE_PROFILE,
-  payload: user,
+  payload,
 });
 
-const setFollow = (follow) => ({
+const setFollow = (payload) => ({
   type: ADD_FOLLOW,
-  payload: follow,
+  payload,
 });
 
-const removeFollow = (follow) => ({
+const removeFollow = (payload) => ({
   type: REMOVE_FOLLOW,
-  payload: follow,
+  payload,
 });
 
 export const getProfileData = (username) => async (dispatch) => {

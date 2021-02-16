@@ -3,16 +3,17 @@ import { csrfFetch } from "../utils/csrf";
 const SET_USER = "SET_USER";
 const REMOVE_USER = "REMOVE_USER";
 
-const setUser = (user) => {
+const setUser = (payload) => {
   return {
     type: SET_USER,
-    payload: user,
+    payload,
   };
 };
 
-const removeUser = () => {
+const removeUser = (payload) => {
   return {
     type: REMOVE_USER,
+    payload,
   };
 };
 

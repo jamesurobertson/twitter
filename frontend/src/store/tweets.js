@@ -3,14 +3,14 @@ import { csrfFetch } from "../utils/csrf";
 const ADD_TWEET = "tweets/ADD_TWEET";
 const GET_FEED_TWEETS = "tweets/GET_FEED_TWEETS";
 
-const addTweet = (tweet) => ({
+const addTweet = (payload) => ({
   type: ADD_TWEET,
-  payload: tweet,
+  payload,
 });
 
-const addFeedTweets = (tweets) => ({
+const addFeedTweets = (payload) => ({
   type: GET_FEED_TWEETS,
-  payload: tweets,
+  payload,
 });
 
 export const postTweet = (body) => async (dispatch) => {
