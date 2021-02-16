@@ -61,7 +61,7 @@ router.post(
   asyncHandler(async (req, res) => {
     const { user } = req;
     const tweet = await user.createTweet({ ...req.body });
-    await tweet.reload({ include: User });
+    await tweet.reload({ include: [User, "likes"] });
     res.json({ tweet });
   })
 );

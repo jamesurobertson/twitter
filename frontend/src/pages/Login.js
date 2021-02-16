@@ -1,5 +1,5 @@
 import { useState } from "react";
-import * as sessionActions from "../store/session";
+import * as sessionActions from "../store/sessionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 

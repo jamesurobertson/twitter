@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFeedTweets } from "../../store/tweets";
+import { getFeedTweets } from "../../store/tweetsSlice";
 import Tweet from "../Tweet";
 
 const Feed = () => {

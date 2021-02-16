@@ -1,27 +1,16 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
-import session from "./session";
-import tweets from "./tweets";
-import currentProfile from "./currentProfile";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import sessionReducer from "./sessionSlice";
+import tweetsReducer from "./tweetsSlice";
+import currentProfileReducer from "./currentProfileSlice";
 
 const rootReducer = combineReducers({
-  session,
-  tweets,
-  currentProfile,
+  session: sessionReducer,
+  tweets: tweetsReducer,
+  currentProfile: currentProfileReducer,
 });
 
-let enhancer;
+const store = configureStore({
+  reducer: rootReducer,
+});
 
-if (process.env.NODE_ENV === "production") {
-  enhancer = applyMiddleware(thunk);
-} else {
-  const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  enhancer = composeEnhancers(applyMiddleware(thunk));
-}
-
-const configureStore = (initialState) => {
-  return createStore(rootReducer, initialState, enhancer);
-};
-
-export default configureStore;
+export default store;

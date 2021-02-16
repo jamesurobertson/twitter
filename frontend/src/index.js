@@ -5,10 +5,9 @@ import "./index.css";
 import { Provider } from "react-redux";
 import App from "./App";
 
-import configureStore from "./store";
+import store from "./store";
 import { restoreCSRF } from "./utils/csrf";
 
-const store = configureStore();
 if (process.env.NODE_ENV !== "production") {
   restoreCSRF();
 }

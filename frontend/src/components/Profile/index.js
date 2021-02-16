@@ -5,7 +5,7 @@ import {
   getProfileData,
   postFollowUser,
   deleteFollow,
-} from "../../store/currentProfile";
+} from "../../store/currentProfileSlice";
 import MainHeader from "../MainHeader";
 import Tweet from "../Tweet";
 
