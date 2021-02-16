@@ -1,16 +1,15 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import sessionReducer from "./sessionSlice";
-import tweetsReducer from "./tweetsSlice";
-import currentProfileReducer from "./currentProfileSlice";
-
-const rootReducer = combineReducers({
-  session: sessionReducer,
-  tweets: tweetsReducer,
-  currentProfile: currentProfileReducer,
-});
+import rootReducer from "./rootReducer";
 
 const store = configureStore({
   reducer: rootReducer,
 });
+
+if (process.env.NODE_ENV === "development" && module.hot) {
+  module.hot.accept("./rootReducer", () => {
+    const newRootReducer = require("./rootReducer").default;
+    store.replaceReducer(newRootReducer);
+  });
+}
 
 export default store;
