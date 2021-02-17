@@ -5,7 +5,7 @@ import {
   getProfileData,
   postFollowUser,
   deleteFollow,
-} from "../../store/currentProfileSlice";
+} from "../../store/usersSlice";
 import MainHeader from "../MainHeader";
 import Tweet from "../Tweet";
 
@@ -13,11 +13,16 @@ const Profle = () => {
   const [loading, setLoading] = useState(true);
   const [followsUser, setFollowsUser] = useState(null);
 
-  const user = useSelector((state) => state.session.user);
-  const currentProfile = useSelector((state) => state.currentProfile);
+  const sessionUser = useSelector((state) => state.session.user);
 
   const dispatch = useDispatch();
   const { username } = useParams();
+
+  const currentProfile = useSelector((state) =>
+    Object.keys(state.entities.users.entities).find(
+      (u) => u.username === username
+    )
+  );
 
   useEffect(() => {
     dispatch(getProfileData(username)).then(() => setLoading(false));
@@ -26,9 +31,11 @@ const Profle = () => {
   useEffect(() => {
     console.log("currentProfile changed");
     setFollowsUser(
-      currentProfile.followers.some((follower) => follower.userId === user.id)
+      currentProfile.followers.some(
+        (follower) => follower.userId === sessionUser.id
+      )
     );
-  }, [currentProfile, user]);
+  }, [currentProfile, sessionUser]);
 
   const unfollowUser = () => {
     dispatch(deleteFollow(currentProfile.id));
@@ -42,7 +49,7 @@ const Profle = () => {
   return (
     <div>
       <MainHeader title={`${currentProfile.username}'s Profile!`} />
-      {user.username !== username && (
+      {sessionUser.username !== username && (
         <button onClick={followsUser ? unfollowUser : followUser}>
           {followsUser ? "Unfollow" : "Follow"} {username}
         </button>

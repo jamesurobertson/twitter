@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFeedTweets } from "../../store/tweetsSlice";
+import { fetchTweets } from "../../store/tweetsSlice";
 import Tweet from "../Tweet";
 
 const Feed = () => {
   const [loading, setLoading] = useState(true);
-  const tweets = useSelector((state) => state.tweets);
+  const tweets = useSelector((state) =>
+    state.entities.tweets.ids.map((id) => state.entities.tweets.entities[id])
+  );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getFeedTweets()).then(() => setLoading(false));
+    dispatch(fetchTweets()).then(() => setLoading(false));
   }, [dispatch]);
 
   // TODO: message if you don't follow anyone or don't have any of your own tweets.
@@ -21,5 +23,3 @@ const Feed = () => {
     </div>
   );
 };
-
-export default Feed;

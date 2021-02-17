@@ -1,10 +1,15 @@
 import { csrfFetch } from "../utils/csrf";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+
+const usersAdapter = createEntityAdapter({
+  selectId: (user) => user.username,
+});
 
 const currentProfileSlice = createSlice({
   name: "currentProfile",
-  initialState: { follows: [], followers: [] },
+  initialState: usersAdapter.getInitialState(),
   reducers: {
+    userAdded: usersAdapter.addOne,
     changeProfile(state, action) {
       return action.payload;
     },
@@ -19,12 +24,19 @@ const currentProfileSlice = createSlice({
   },
 });
 
-const { changeProfile, addFollow, removeFollow } = currentProfileSlice.actions;
+// selectores. destucture and export?
+
+const {
+  changeProfile,
+  addFollow,
+  removeFollow,
+  userAdded,
+} = currentProfileSlice.actions;
 
 export const getProfileData = (username) => async (dispatch) => {
   const res = await csrfFetch(`/api/users/${username}`);
   const { user } = await res.json();
-  dispatch(changeProfile(user));
+  dispatch(userAdded(user));
 };
 
 export const postFollowUser = (id) => async (dispatch) => {
