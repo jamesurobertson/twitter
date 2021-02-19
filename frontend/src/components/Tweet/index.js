@@ -1,48 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import TweetActions from "./TweetActions";
+import { timeSince } from "../../utils";
 
 const Tweet = ({ tweet }) => {
-  const dispatch = useDispatch();
-
-  const tweetUser = useSelector(
-    (state) => state.entities.users.entities[tweet.userId]
-  );
+  console.log(tweet);
+  const tweetUser = useSelector((state) => state.entities.users[tweet.userId]);
   const likeTweet = (id) => {
     console.log(id);
   };
 
-  function timeSince(date) {
-    var seconds = Math.floor((new Date() - new Date(date)) / 1000);
-
-    var interval = seconds / 31536000;
-
-    if (interval > 1) {
-      return Math.floor(interval) + " years";
-    }
-    interval = seconds / 2592000;
-    if (interval > 1) {
-      return Math.floor(interval) + " months";
-    }
-    interval = seconds / 86400;
-    if (interval > 1) {
-      return Math.floor(interval) + "d";
-    }
-    interval = seconds / 3600;
-    if (interval > 1) {
-      return Math.floor(interval) + "h";
-    }
-    interval = seconds / 60;
-    if (interval > 1) {
-      return Math.floor(interval) + "m";
-    }
-    return Math.floor(seconds) + "s";
-  }
-
   return (
     <div className="flex-col border w-full p-3">
       <div className="flex">
-        <Link className="mr-2" to={`${tweetUser.username}`}>
+        <Link className="mr-2" to={`${tweetUser.id}`}>
           <img
             className="rounded-full w-11 h-11 object-cover"
             src={tweetUser.profileImageUrl}
@@ -50,7 +21,7 @@ const Tweet = ({ tweet }) => {
           />
         </Link>
         <div className="w-full">
-          <Link className="flex" to={`${tweetUser.username}`}>
+          <Link className="flex" to={`${tweetUser.id}`}>
             <div className="font-bold hover:underline mr-1">
               {tweetUser.firstName || tweetUser.username}
             </div>

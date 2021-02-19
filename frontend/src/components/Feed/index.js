@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTweets } from "../../store/tweetsSlice";
+import { fetchTweets } from "../../store/entitiesSlice";
 import Tweet from "../Tweet";
 
 const Feed = () => {
   const [loading, setLoading] = useState(true);
   const tweets = useSelector((state) =>
-    state.entities.tweets.ids.map((id) => state.entities.tweets.entities[id])
+    state.entities.feed.map((id) => state.entities.tweets[id])
   );
   const dispatch = useDispatch();
   useEffect(() => {

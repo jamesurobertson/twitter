@@ -1,16 +1,19 @@
 import { csrfFetch } from "../utils/csrf";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { normalize, schema } from "normalizr";
+import { normalize } from "normalizr";
+import { schemas } from "./schemas";
 
-const follow = new schema.Entity("follows", {});
-const user = new schema.Entity("users", { follows: follow });
-const tweet = new schema.Entity("tweets", { User: user });
+const { user, tweet } = schemas;
 
 export const fetchTweets = createAsyncThunk("tweets/fetchAll", async () => {
   const res = await csrfFetch("/api/tweets");
-  const { tweets } = await res.json();
-  const normalized = normalize(tweets, [tweet]);
-  return normalized.entities;
+  const data = await res.json();
+  const normalized = normalize(data, {
+    tweets: [tweet],
+    users: [user],
+  });
+
+  return normalized;
 });
 
 export const postTweet = createAsyncThunk("tweets/postTweet", async (body) => {
@@ -20,33 +23,71 @@ export const postTweet = createAsyncThunk("tweets/postTweet", async (body) => {
   });
 
   const data = await res.json();
-  const normalized = normalize(data.tweet, tweet);
+  const normalized = normalize(data, { tweet, user });
+
+  return normalized;
+});
+
+export const getUser = createAsyncThunk("users/getUser", async (username) => {
+  const res = await csrfFetch(`/api/users/${username}`);
+  const data = await res.json();
+  const normalized = normalize(data.user, user);
   return normalized.entities;
 });
 
+export const postFollow = createAsyncThunk("users/postFollow", async (id) => {
+  const res = await csrfFetch(`/api/follows/${id}`, {
+    method: "POST",
+  });
+
+  const { follow } = await res.json();
+  return follow;
+});
+
+export const deleteFollow = createAsyncThunk(
+  "users/deleteFollow",
+  async (id) => {
+    const res = await csrfFetch(`/api/follows/${id}`, {
+      method: "DELETE",
+    });
+    const { follow } = await res.json();
+    return follow;
+  }
+);
 const entitiesSlice = createSlice({
   name: "entities",
   initialState: {
-    tweets: {
-      ids: [],
-      entities: {},
-    },
-    users: {
-      entities: {},
-    },
+    tweets: {},
+    users: {},
+    feed: [],
   },
   reducers: {},
   extraReducers: {
     [fetchTweets.fulfilled]: (state, { payload }) => {
-      state.tweets.entities = payload.tweets;
-      state.users.entities = payload.users;
-      state.tweets.ids = Object.keys(payload.tweets).reverse();
+      console.log(payload);
+      return { ...state, ...payload.entities, feed: payload.result.tweets };
     },
     [postTweet.fulfilled]: (state, { payload }) => {
       console.log(payload);
-      state.tweets.entities = { ...state.tweets.entities, ...payload.tweets };
-      state.users.entities = { ...state.users.entities, ...payload.users };
-      state.tweets.ids.unshift(Object.keys(payload.tweets)[0]);
+      state.tweets = { ...state.tweets, ...payload.entities.tweets };
+      state.users = { ...state.users, ...payload.entities.users };
+      state.feed.unshift(payload.result.tweet);
+    },
+    [getUser.fulfilled]: (state, { payload }) => {
+      state.users = { ...state.users, ...payload.users };
+      state.tweets = { ...state.tweets, ...payload.tweets };
+    },
+    [postFollow.fulfilled]: (state, { payload }) => {
+      state.users[payload.userFollowedId].followers.push(payload.userId);
+      state.users[payload.userId].follows.push(payload.userFollowedId);
+    },
+    [deleteFollow.fulfilled]: (state, { payload }) => {
+      state.users[payload.userFollowedId].followers = state.users[
+        payload.userFollowedId
+      ].followers.filter((follower) => follower !== payload.userId);
+      state.users[payload.userId].follows = state.users[
+        payload.userId
+      ].follows.filter((follow) => follow !== payload.userFollowedId);
     },
   },
 });

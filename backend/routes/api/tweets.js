@@ -31,9 +31,14 @@ router.get(
           { userId: user.id },
         ],
       },
-      include: [User, "likes"],
+      include: ["likes"],
     });
-    res.json({ tweets });
+    const users = await Promise.all(
+      [...new Set(tweets.map((tweet) => tweet.userId))].map((userId) =>
+        User.findByPk(userId, { include: ["follows", "followers"] })
+      )
+    );
+    res.json({ tweets, users });
   })
 );
 
@@ -61,8 +66,9 @@ router.post(
   asyncHandler(async (req, res) => {
     const { user } = req;
     const tweet = await user.createTweet({ ...req.body });
-    await tweet.reload({ include: [User, "likes"] });
-    res.json({ tweet });
+    await tweet.reload({ include: "likes" });
+    const tweetUser = await User.findByPk(tweet.userId);
+    res.json({ tweet, user: tweetUser });
   })
 );
 

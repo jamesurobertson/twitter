@@ -28,7 +28,7 @@ const Routes = () => (
           <Route path="/bookmarks">
             <Bookmarks />
           </Route>
-          <Route path="/:username">
+          <Route path="/:userId">
             <Profile />
           </Route>
           <Route path="/more">
