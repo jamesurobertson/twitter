@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { postTweet } from "../../store/tweetsSlice";
+import { postTweet } from "../../store/entitiesSlice";
 
 const TweetInput = () => {
   const [content, setContent] = useState("");

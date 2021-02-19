@@ -59,20 +59,14 @@ router.post(
 );
 
 router.get(
-  "/:username",
+  "/:userId",
   asyncHandler(async (req, res) => {
-    const username = req.params.username;
-    const user = await User.findOne({
-      where: { username },
+    const userId = parseInt(req.params.userId);
+    const user = await User.findByPk(userId, {
       include: [
         "followers",
         "follows",
-        {
-          model: Tweet,
-          order: [["id", "DESC"]],
-          limit: 10,
-          include: [User, "likes"],
-        },
+        { model: Tweet, limit: 10, order: [["id", "DESC"]], include: "likes" },
       ],
     });
 

@@ -35,7 +35,7 @@ router.post(
 
     setTokenCookie(res, user);
 
-    await res.reload({ include: ["follows", "followers"] });
+    await user.reload({ include: ["follows", "followers"] });
     return res.json({
       user,
     });

@@ -10,7 +10,7 @@ import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
 
 const Navbar = () => {
-  const user = useSelector((state) => state.session.user.username);
+  const user = useSelector((state) => state.session.user);
   return (
     <div className="w-1/6 flex-col bg-white p-3 h">
       <NavLink to="/home">
@@ -29,7 +29,7 @@ const Navbar = () => {
         <NavItem title="Bookmarks" Icon={BsBookmark} />
       </NavLink>
       {user && (
-        <NavLink to={`${user}`}>
+        <NavLink to={`${user.id}`}>
           <NavItem title="Profile" Icon={AiOutlineUser} />
         </NavLink>
       )}

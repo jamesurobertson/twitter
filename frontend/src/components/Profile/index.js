@@ -1,53 +1,59 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  getProfileData,
-  postFollowUser,
-  deleteFollow,
-} from "../../store/currentProfileSlice";
+import { getUser, postFollow, deleteFollow } from "../../store/entitiesSlice";
 import MainHeader from "../MainHeader";
 import Tweet from "../Tweet";
 
 const Profle = () => {
   const [loading, setLoading] = useState(true);
   const [followsUser, setFollowsUser] = useState(null);
+  const [profileTweets, setProfileTweets] = useState([]);
 
-  const user = useSelector((state) => state.session.user);
-  const currentProfile = useSelector((state) => state.currentProfile);
-
+  const { userId } = useParams();
   const dispatch = useDispatch();
-  const { username } = useParams();
+
+  const allTweets = useSelector((state) => state.entities.tweets);
+  const sessionUser = useSelector((state) => state.session.user);
+  const profileUser = useSelector((state) => state.entities.users[userId]);
 
   useEffect(() => {
-    dispatch(getProfileData(username)).then(() => setLoading(false));
-  }, [dispatch, username]);
+    console.log("got user");
+    dispatch(getUser(userId)).then(() => setLoading(false));
+  }, [dispatch, userId]);
 
   useEffect(() => {
-    console.log("currentProfile changed");
-    setFollowsUser(
-      currentProfile.followers.some((follower) => follower.userId === user.id)
-    );
-  }, [currentProfile, user]);
+    // return early if userData hasn't loaded from previous useEffect
+    if (loading) return;
+
+    // does sessionUser follow profileUser
+    const follows = profileUser.followers.includes(sessionUser.id);
+    setFollowsUser(follows);
+
+    // Tweets of profileUser
+    const tweets = profileUser.Tweets.map((id) => allTweets[id]);
+    setProfileTweets(tweets);
+  }, [profileUser, sessionUser, allTweets, loading]);
 
   const unfollowUser = () => {
-    dispatch(deleteFollow(currentProfile.id));
+    dispatch(deleteFollow(profileUser.id));
   };
 
   const followUser = () => {
-    dispatch(postFollowUser(currentProfile.id));
+    dispatch(postFollow(profileUser.id));
   };
 
   if (loading) return null;
+  if (!profileUser) return null;
   return (
     <div>
-      <MainHeader title={`${currentProfile.username}'s Profile!`} />
-      {user.username !== username && (
+      <MainHeader title={`${profileUser.username}'s Profile!`} />
+      {sessionUser.id !== Number(userId) && (
         <button onClick={followsUser ? unfollowUser : followUser}>
-          {followsUser ? "Unfollow" : "Follow"} {username}
+          {followsUser ? "Unfollow" : "Follow"} {profileUser.username}
         </button>
       )}
-      {currentProfile.Tweets.map((tweet) => (
+      {profileTweets.map((tweet) => (
         <Tweet key={tweet.id} tweet={tweet} />
       ))}
     </div>
