@@ -1,9 +1,5 @@
 import { csrfFetch } from "../utils/csrf";
-import {
-  createSlice,
-  createAsyncThunk,
-  bindActionCreators,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { normalize } from "normalizr";
 import { schemas } from "./schemas";
 
@@ -65,6 +61,22 @@ export const deleteFollow = createAsyncThunk(
     return follow;
   }
 );
+
+export const postLike = createAsyncThunk("tweets/postLike", async (id) => {
+  const res = await csrfFetch(`/api/tweets/like/${id}`, {
+    method: "POST",
+  });
+  const { like } = await res.json();
+  return like;
+});
+
+export const deleteLike = createAsyncThunk("tweets/deleteLike", async (id) => {
+  const res = await csrfFetch(`/api/tweets/like/${id}`, {
+    method: "Delete",
+  });
+  const { like } = await res.json();
+  return like;
+});
 const entitiesSlice = createSlice({
   name: "entities",
   initialState: {
@@ -74,17 +86,14 @@ const entitiesSlice = createSlice({
   },
   reducers: {
     setUser: (state, { payload }) => {
-      console.log(payload);
       state.users = { ...state, ...payload.entities.users };
     },
   },
   extraReducers: {
     [fetchTweets.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       return { ...state, ...payload.entities, feed: payload.result.tweets };
     },
     [postTweet.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.tweets = { ...state.tweets, ...payload.entities.tweets };
       state.users = { ...state.users, ...payload.entities.users };
       state.feed.unshift(payload.result.tweet);
@@ -104,6 +113,14 @@ const entitiesSlice = createSlice({
       state.users[payload.userId].follows = state.users[
         payload.userId
       ].follows.filter((follow) => follow !== payload.userFollowedId);
+    },
+    [postLike.fulfilled]: (state, { payload }) => {
+      state.tweets[payload.tweetId].likes.push(payload.userId);
+    },
+    [deleteLike.fulfilled]: (state, { payload }) => {
+      state.tweets[payload.tweetId].likes = state.tweets[
+        payload.tweetId
+      ].likes.filter((like) => like !== payload.userId);
     },
   },
 });

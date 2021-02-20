@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { getSessionUser, signup } from "../store/sessionSlice";
+import { selectSessionUser, signup } from "../store/sessionSlice";
 
 function Singup() {
   const [email, setEmail] = useState("");
@@ -10,7 +10,7 @@ function Singup() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const dispatch = useDispatch();
-  const sessionUser = useSelector(getSessionUser);
+  const sessionUser = useSelector(selectSessionUser);
 
   if (sessionUser) return <Redirect to="/" />;
 

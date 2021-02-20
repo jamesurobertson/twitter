@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { login, getSessionUser } from "../store/sessionSlice";
+import { login, selectSessionUser } from "../store/sessionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 function Login() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector(getSessionUser);
+  const sessionUser = useSelector(selectSessionUser);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);

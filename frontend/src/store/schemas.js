@@ -12,8 +12,12 @@ const follower = new schema.Entity(
     idAttribute: (follower) => follower.userId,
   }
 );
-const like = new schema.Entity("likes", {});
-const tweet = new schema.Entity("tweets", { like });
+const like = new schema.Entity(
+  "likes",
+  {},
+  { idAttribute: (like) => like.userId }
+);
+const tweet = new schema.Entity("tweets", { likes: [like] });
 const user = new schema.Entity("users", {
   follows: [follow],
   followers: [follower],

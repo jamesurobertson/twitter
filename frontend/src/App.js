@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import Routes from "./Routes";
 import { useDispatch, useSelector } from "react-redux";
-import { restoreUser, getSessionUser } from "./store/sessionSlice";
+import { restoreUser, selectSessionUser } from "./store/sessionSlice";
 import { setUser } from "./store/entitiesSlice";
 import Auth from "./components/Auth";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const user = useSelector(getSessionUser);
+  const user = useSelector(selectSessionUser);
 
   useEffect(() => {
     dispatch(restoreUser()).then((res) => {

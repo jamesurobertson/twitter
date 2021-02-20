@@ -72,4 +72,29 @@ router.post(
   })
 );
 
+//posting a like
+router.post(
+  "/like/:tweetId",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const { user } = req;
+    const tweetId = parseInt(req.params.tweetId);
+    const like = await user.createLike({ tweetId });
+    res.json({ like });
+  })
+);
+
+//removing a like tweet
+router.delete(
+  "/like/:tweetId",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const { user } = req;
+    const tweetId = parseInt(req.params.tweetId);
+    // can I find a way to do user.removeLike({...}) ?
+    const like = await Like.findOne({ where: { tweetId, userId: user.id } });
+    await like.destroy();
+    res.json({ like });
+  })
+);
 module.exports = router;

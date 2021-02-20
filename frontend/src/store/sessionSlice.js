@@ -39,7 +39,6 @@ const sessionSlice = createSlice({
   },
   extraReducers: {
     [restoreUser.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.userId = payload.result;
     },
   },
@@ -70,6 +69,7 @@ export const logout = () => async (dispatch) => {
   return res;
 };
 
-export const getSessionUser = (state) => state.entities.users[state.session.userId]
+export const selectSessionUser = (state) =>
+  state.entities.users[state.session.userId];
 
 export default sessionSlice.reducer;

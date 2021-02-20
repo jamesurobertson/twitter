@@ -2,11 +2,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import TweetActions from "./TweetActions";
 import { timeSince } from "../../utils";
+import { selectSessionUser } from "../../store/sessionSlice";
+import { deleteLike, postLike } from "../../store/entitiesSlice";
 
 const Tweet = ({ tweet }) => {
   const tweetUser = useSelector((state) => state.entities.users[tweet.userId]);
-  const likeTweet = (id) => {
-    console.log(id);
+  const sessionUser = useSelector(selectSessionUser);
+  const dispatch = useDispatch();
+
+  const userLikes = tweet.likes.some((userId) => sessionUser.id);
+
+  const toggleLike = (id) => {
+    if (userLikes) {
+      dispatch(deleteLike(id));
+    } else {
+      dispatch(postLike(id));
+    }
   };
 
   return (
@@ -32,7 +43,7 @@ const Tweet = ({ tweet }) => {
           <div>{tweet.content}</div>
           <TweetActions
             likes={tweet.likes}
-            likeTweet={() => likeTweet(tweet.id)}
+            toggleLike={() => toggleLike(tweet.id)}
           />
         </div>
       </div>
