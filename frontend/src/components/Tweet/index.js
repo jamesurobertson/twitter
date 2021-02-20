@@ -4,7 +4,6 @@ import TweetActions from "./TweetActions";
 import { timeSince } from "../../utils";
 
 const Tweet = ({ tweet }) => {
-  console.log(tweet);
   const tweetUser = useSelector((state) => state.entities.users[tweet.userId]);
   const likeTweet = (id) => {
     console.log(id);

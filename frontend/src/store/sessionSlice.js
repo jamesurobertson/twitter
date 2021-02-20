@@ -1,23 +1,11 @@
 import { csrfFetch } from "../utils/csrf";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { schemas } from "./schemas";
+import { normalize } from "normalizr";
+const { user } = schemas;
 
-const sessionSlice = createSlice({
-  name: "session",
-  initialState: { user: null },
-  reducers: {
-    setUser(state, action) {
-      state.user = action.payload;
-    },
-    removeUser(state, action) {
-      state.user = null;
-    },
-  },
-});
-
-const { setUser, removeUser } = sessionSlice.actions;
-
-export const login = (user) => async (dispatch) => {
-  const { credential, password } = user;
+export const login = createAsyncThunk("session/login", async (session) => {
+  const { credential, password } = session;
   const res = await csrfFetch("/api/session", {
     method: "POST",
     body: JSON.stringify({
@@ -26,16 +14,38 @@ export const login = (user) => async (dispatch) => {
     }),
   });
   const data = await res.json();
-  dispatch(setUser(data.user));
-  return res;
-};
+  const normalized = normalize(data, user);
+  return normalized;
+});
 
-export const restoreUser = () => async (dispatch) => {
+export const restoreUser = createAsyncThunk("session/restore", async () => {
   const res = await csrfFetch("/api/session");
-  const { user } = await res.json();
-  dispatch(setUser(user));
-  return res;
-};
+  const data = await res.json();
+  const normalized = normalize(data.user, user);
+  return normalized;
+});
+
+const sessionSlice = createSlice({
+  name: "session",
+  initialState: { userId: null },
+  reducers: {
+    setUser(state, { payload }) {
+      console.log(payload);
+      state.user = payload.result;
+    },
+    removeUser(state, action) {
+      state.user = null;
+    },
+  },
+  extraReducers: {
+    [restoreUser.fulfilled]: (state, { payload }) => {
+      console.log(payload);
+      state.userId = payload.result;
+    },
+  },
+});
+
+const { setUser, removeUser } = sessionSlice.actions;
 
 export const signup = (user) => async (dispatch) => {
   const { username, email, password } = user;

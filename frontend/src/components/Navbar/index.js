@@ -10,7 +10,9 @@ import { NavLink } from "react-router-dom";
 import NavItem from "./NavItem";
 
 const Navbar = () => {
-  const user = useSelector((state) => state.session.user);
+  const user = useSelector(
+    (state) => state.entities.users[state.session.userId]
+  );
   return (
     <div className="w-1/6 flex-col bg-white p-3 h">
       <NavLink to="/home">

@@ -5,7 +5,9 @@ import { Redirect } from "react-router-dom";
 
 function Login() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector(
+    (state) => state.entities.users[state.session.userId]
+  );
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);

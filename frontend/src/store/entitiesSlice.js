@@ -1,5 +1,9 @@
 import { csrfFetch } from "../utils/csrf";
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  bindActionCreators,
+} from "@reduxjs/toolkit";
 import { normalize } from "normalizr";
 import { schemas } from "./schemas";
 
@@ -61,7 +65,12 @@ const entitiesSlice = createSlice({
     users: {},
     feed: [],
   },
-  reducers: {},
+  reducers: {
+    setUser: (state, { payload }) => {
+      console.log(payload);
+      state.users = { ...state, ...payload.entities.users };
+    },
+  },
   extraReducers: {
     [fetchTweets.fulfilled]: (state, { payload }) => {
       console.log(payload);
@@ -91,5 +100,7 @@ const entitiesSlice = createSlice({
     },
   },
 });
+
+export const setUser = entitiesSlice.actions.setUser;
 
 export default entitiesSlice.reducer;

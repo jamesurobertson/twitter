@@ -14,7 +14,9 @@ const Profle = () => {
   const dispatch = useDispatch();
 
   const allTweets = useSelector((state) => state.entities.tweets);
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector(
+    (state) => state.entities.users[state.session.userId]
+  );
   const profileUser = useSelector((state) => state.entities.users[userId]);
 
   useEffect(() => {

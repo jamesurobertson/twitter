@@ -5,7 +5,9 @@ import { signup } from "../store/sessionSlice";
 
 function Singup() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector(
+    (state) => state.entities.users[state.session.userId]
+  );
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
