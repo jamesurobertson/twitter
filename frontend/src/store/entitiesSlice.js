@@ -17,7 +17,14 @@ export const fetchTweets = createAsyncThunk("tweets/fetchAll", async () => {
     users: [user],
   });
 
-  return normalized;
+  // getting everything but follows, and followers from entities. We don't care
+  // about those objects in our entities slice of state
+  const {
+    entities: { tweets, users },
+    result,
+  } = normalized;
+
+  return { entities: { tweets, users }, result };
 });
 
 export const postTweet = createAsyncThunk("tweets/postTweet", async (body) => {

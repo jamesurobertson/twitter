@@ -12,6 +12,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(restoreUser()).then((res) => {
+      // setting session slice, then adding the user into our entities.users slice of state
       dispatch(setUser(res.payload));
       setLoading(false);
     });
