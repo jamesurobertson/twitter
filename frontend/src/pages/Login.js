@@ -1,13 +1,11 @@
 import { useState } from "react";
-import * as sessionActions from "../store/sessionSlice";
+import { login, getSessionUser } from "../store/sessionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 function Login() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector(
-    (state) => state.entities.users[state.session.userId]
-  );
+  const sessionUser = useSelector(getSessionUser);
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -17,11 +15,9 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password })).catch(
-      (res) => {
-        if (res.data && res.data.errors) setErrors(res.data.errors);
-      }
-    );
+    return dispatch(login({ credential, password })).catch((res) => {
+      if (res.data && res.data.errors) setErrors(res.data.errors);
+    });
   };
 
   return (

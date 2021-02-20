@@ -7,12 +7,11 @@ import { BsHash } from "react-icons/bs";
 import { BsBookmark } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { getSessionUser } from "../../store/sessionSlice";
 import NavItem from "./NavItem";
 
 const Navbar = () => {
-  const user = useSelector(
-    (state) => state.entities.users[state.session.userId]
-  );
+  const user = useSelector(getSessionUser);
   return (
     <div className="w-1/6 flex-col bg-white p-3 h">
       <NavLink to="/home">

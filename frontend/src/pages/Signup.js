@@ -1,13 +1,11 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { signup } from "../store/sessionSlice";
+import { getSessionUser, signup } from "../store/sessionSlice";
 
 function Singup() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector(
-    (state) => state.entities.users[state.session.userId]
-  );
+  const sessionUser = useSelector(getSessionUser);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

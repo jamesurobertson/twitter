@@ -70,4 +70,6 @@ export const logout = () => async (dispatch) => {
   return res;
 };
 
+export const getSessionUser = (state) => state.entities.users[state.session.userId]
+
 export default sessionSlice.reducer;

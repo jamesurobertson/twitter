@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getUser, postFollow, deleteFollow } from "../../store/entitiesSlice";
+import { getSessionUser } from "../../store/sessionSlice";
 import MainHeader from "../MainHeader";
 import Tweet from "../Tweet";
 
@@ -14,9 +15,7 @@ const Profle = () => {
   const dispatch = useDispatch();
 
   const allTweets = useSelector((state) => state.entities.tweets);
-  const sessionUser = useSelector(
-    (state) => state.entities.users[state.session.userId]
-  );
+  const sessionUser = useSelector(getSessionUser);
   const profileUser = useSelector((state) => state.entities.users[userId]);
 
   useEffect(() => {
