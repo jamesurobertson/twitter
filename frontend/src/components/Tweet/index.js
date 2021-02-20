@@ -10,9 +10,10 @@ const Tweet = ({ tweet }) => {
   const sessionUser = useSelector(selectSessionUser);
   const dispatch = useDispatch();
 
-  const userLikes = tweet.likes.some((userId) => sessionUser.id);
+  const userLikes = tweet.likes.some((userId) => userId === sessionUser.id);
 
   const toggleLike = (id) => {
+    // TODO: learn about stopping action for slower connections.
     if (userLikes) {
       dispatch(deleteLike(id));
     } else {
