@@ -11,9 +11,10 @@ const Tweet = ({ tweet }) => {
   const dispatch = useDispatch();
 
   const userLikes = tweet.likes.some((userId) => userId === sessionUser.id);
+  const isSessions = sessionUser.id === tweet.userId;
 
   const toggleLike = (id) => {
-    // TODO: learn about stopping action for slower connections.
+    // TODO: learn about stopping action for slower connections so that you can't accidentally like more than once.
     if (userLikes) {
       dispatch(deleteLike(id));
     } else {
@@ -44,6 +45,7 @@ const Tweet = ({ tweet }) => {
           <div>{tweet.content}</div>
           <TweetActions
             likes={tweet.likes}
+            isSessions={isSessions}
             toggleLike={() => toggleLike(tweet.id)}
           />
         </div>

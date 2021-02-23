@@ -2,7 +2,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { TiMessage } from "react-icons/ti";
 import { AiOutlineRetweet } from "react-icons/ai";
 
-const TweetActions = ({ likes, toggleLike }) => (
+const TweetActions = ({ likes, toggleLike, isSessions }) => (
   <div className="flex justify-between items-center max-w-xs">
     <TiMessage />
     <AiOutlineRetweet />

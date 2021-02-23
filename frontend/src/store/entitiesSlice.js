@@ -86,7 +86,7 @@ const entitiesSlice = createSlice({
   },
   reducers: {
     setUser: (state, { payload }) => {
-      state.users = { ...state, ...payload.entities.users };
+      state.users = { ...state.users, ...payload.entities.users };
     },
   },
   extraReducers: {
