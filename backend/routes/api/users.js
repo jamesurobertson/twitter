@@ -5,6 +5,7 @@ const { User, Follow, Tweet } = require("../../db/models");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
 const { singleMulterUpload, singlePublicFileUpload } = require("../../awsS3");
+const { Op } = require("sequelize");
 
 const router = express.Router();
 
@@ -75,9 +76,14 @@ router.get(
 );
 
 router.get(
-  "/",
+  "/search/:queryStr",
   asyncHandler(async (req, res) => {
-    const users = await User.findAll();
+    const query = req.params.queryStr;
+    const users = await User.findAll({
+      where: { username: { [Op.iLike]: `${query}%` } },
+      limit: 10,
+    });
+    console.log(users.length);
     res.json(users);
   })
 );

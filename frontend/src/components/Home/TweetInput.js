@@ -29,9 +29,13 @@ const TweetInput = () => {
   }, []);
 
   const onSearchChange = useCallback(({ value }) => {
-    fetch(`/api/users/${value}`)
+    console.log(value);
+    // TODO: FIND FIX FOR THIS.
+    let empty = value.length === 0;
+    fetch(`/api/users/search/${empty ? "_" : value}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         const newData = data.map((user) => ({
           name: `@${user.username}`,
           link: `/profile/${user.id}`,
