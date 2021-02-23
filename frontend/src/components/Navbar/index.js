@@ -30,7 +30,7 @@ const Navbar = () => {
         <NavItem title="Bookmarks" Icon={BsBookmark} />
       </NavLink>
       {user && (
-        <NavLink to={`${user.id}`}>
+        <NavLink to={`/profile/${user.id}`}>
           <NavItem title="Profile" Icon={AiOutlineUser} />
         </NavLink>
       )}
