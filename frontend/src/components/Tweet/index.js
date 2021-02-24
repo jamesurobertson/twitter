@@ -26,7 +26,7 @@ const Tweet = ({ tweet }) => {
   return (
     <div className="flex-col border w-full p-3">
       <div className="flex">
-        <Link className="mr-2" to={`${tweetUser.id}`}>
+        <Link className="mr-2" to={`/profile/${tweetUser.id}`}>
           <img
             className="rounded-full w-11 h-11 object-cover"
             src={tweetUser.profileImageUrl}

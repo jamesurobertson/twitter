@@ -35,7 +35,7 @@ const Routes = () => (
             <Home />
           </Route>
           <Route path="/*">
-            <Redirect to="/home" />
+            <Redirect to="/profile/1" />
           </Route>
         </Switch>
       </div>

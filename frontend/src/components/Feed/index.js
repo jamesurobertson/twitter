@@ -8,6 +8,7 @@ const Feed = () => {
   const tweets = useSelector((state) =>
     state.entities.feed.map((id) => state.entities.tweets[id])
   );
+  const sessionUserId = useSelector((state) => state.session.userId);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchTweets()).then(() => setLoading(false));
@@ -17,9 +18,14 @@ const Feed = () => {
   if (!tweets || loading) return null;
   return (
     <div className="w-full">
-      {tweets.map((tweet) => (
-        <Tweet key={tweet.id} tweet={tweet} />
-      ))}
+      {tweets.map((tweet) => {
+        // do not display retweeted tweets from the sessionUser on homepage.
+        // TODO: Can this be a more efficient query on backend instead?
+        if (tweet.userId === sessionUserId && tweet.retweetId) {
+          return null;
+        }
+        return <Tweet key={tweet.id} tweet={tweet} />;
+      })}
     </div>
   );
 };

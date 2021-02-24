@@ -5,6 +5,7 @@ import { getUser, postFollow, deleteFollow } from "../../store/entitiesSlice";
 import { selectSessionUser } from "../../store/sessionSlice";
 import MainHeader from "../MainHeader";
 import Tweet from "../Tweet";
+import ProfileHeader from "./ProfileHeader";
 
 const Profle = () => {
   const [loading, setLoading] = useState(true);
@@ -49,6 +50,7 @@ const Profle = () => {
   return (
     <div>
       <MainHeader title={`${profileUser.username}'s Profile!`} />
+      <ProfileHeader user={profileUser} />
       {sessionUser.id !== Number(userId) && (
         <button onClick={followsUser ? unfollowUser : followUser}>
           {followsUser ? "Unfollow" : "Follow"} {profileUser.username}
