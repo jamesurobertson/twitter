@@ -8,7 +8,7 @@ const {
   restoreUser,
   requireAuth,
 } = require("../../utils/auth");
-const { Tweet, User, Like } = require("../../db/models");
+const { Tweet, User, Like, Mention } = require("../../db/models");
 const { Op } = require("sequelize");
 
 const router = express.Router();
@@ -65,10 +65,22 @@ router.post(
   requireAuth,
   asyncHandler(async (req, res) => {
     const { user } = req;
-    const tweet = await user.createTweet({ ...req.body });
+    const { content, mentions } = req.body;
+    const tweet = await user.createTweet({ content });
     await tweet.reload({ include: "likes" });
-    const tweetUser = await User.findByPk(tweet.userId);
-    res.json({ tweet, user: tweetUser });
+
+    //
+    const allMentions = await Promise.all(
+      mentions.map((mention) =>
+        Mention.create({
+          userIdMentioned: mention.user.id,
+          medium: "tweet",
+          mediumId: tweet.id,
+        })
+      )
+    );
+
+    res.json({ tweet, user });
   })
 );
 

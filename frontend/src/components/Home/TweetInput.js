@@ -18,8 +18,16 @@ const TweetInput = () => {
   const submitHandler = () => {
     const contentState = editorState.getCurrentContent();
     const raw = convertToRaw(contentState);
+    let mentionedUsers = [];
+    for (let key in raw.entityMap) {
+      const entity = raw.entityMap[key];
+      if (entity.type === "mention") {
+        mentionedUsers.push(entity.data.mention);
+      }
+    }
+    console.log(mentionedUsers);
     const data = JSON.stringify(raw);
-    dispatch(postTweet({ content: data }));
+    dispatch(postTweet({ content: data, mentions: mentionedUsers }));
   };
 
   return (

@@ -13,7 +13,7 @@ import NavItem from "./NavItem";
 const Navbar = () => {
   const user = useSelector(selectSessionUser);
   return (
-    <div className="w-1/6 flex-col bg-white p-3 h">
+    <div className="w-1/6 flex-col bg-white p-3 min-h-screen">
       <NavLink to="/home">
         <NavItem title="Home" Icon={AiOutlineHome} />
       </NavLink>
