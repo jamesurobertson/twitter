@@ -31,7 +31,7 @@ const TweetInput = () => {
   };
 
   return (
-    <div className="flex p-2 border-solid border-2 border-blue-100">
+    <div className="flex p-2 border mb-2">
       <div className="mr-2 h-20">
         <img
           className="rounded-full w-10 h-10 object-cover"
@@ -46,7 +46,7 @@ const TweetInput = () => {
         />
         <div className="flex justify-end w-full">
           <button
-            className="p-2 bg-blue-100 hover:bg-blue-200 rounded-full border-solid"
+            className="p-2 bg-blue-400 hover:bg-blue-500 rounded-full border-solid text-white"
             onClick={submitHandler}
           >
             Tweet
