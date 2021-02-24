@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import Home from "./components/Home";
 import Navbar from "./components/Navbar";
 import Explore from "./components/Explore";
@@ -34,9 +34,9 @@ const Routes = () => (
           <Route path="/more">
             <Home />
           </Route>
-          {/* <Route path="/*">
-        <Redirect to="/" />
-    </Route> */}
+          <Route path="/*">
+            <Redirect to="/home" />
+          </Route>
         </Switch>
       </div>
     </BrowserRouter>
