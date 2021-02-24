@@ -13,7 +13,19 @@ module.exports = {
           lastName: "User",
           email: "demo@twitter.com",
           bio: "I am the demo user!",
-          profileImageUrl: "google.com",
+          profileImageUrl:
+            "http://isntgram.herokuapp.com/static/media/mylo-profile.70b05805.jpg",
+          bannerImageUrl: "google.com",
+          hashedPassword: bcrypt.hashSync("password"),
+        },
+        {
+          username: "James",
+          firstName: "James",
+          lastName: "Robertson",
+          email: "james@twitter.com",
+          bio: "I am James!",
+          profileImageUrl:
+            "https://slickpics.s3.us-east-2.amazonaws.com/uploads/FriJul242125202020.png",
           bannerImageUrl: "google.com",
           hashedPassword: bcrypt.hashSync("password"),
         },

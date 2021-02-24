@@ -18,6 +18,22 @@ export const login = createAsyncThunk("session/login", async (session) => {
   return normalized;
 });
 
+export const signup = (user) => async (dispatch) => {
+  const { username, email, password } = user;
+  const res = await csrfFetch("/api/users", {
+    method: "POST",
+    body: JSON.stringify({
+      username,
+      email,
+      password,
+    }),
+  });
+  const data = await res.json();
+  dispatch(setUser(data.user));
+  return res;
+};
+
+
 export const restoreUser = createAsyncThunk("session/restore", async () => {
   const res = await csrfFetch("/api/session");
   const data = await res.json();
@@ -46,20 +62,6 @@ const sessionSlice = createSlice({
 
 const { setUser, removeUser } = sessionSlice.actions;
 
-export const signup = (user) => async (dispatch) => {
-  const { username, email, password } = user;
-  const res = await csrfFetch("/api/users", {
-    method: "POST",
-    body: JSON.stringify({
-      username,
-      email,
-      password,
-    }),
-  });
-  const data = await res.json();
-  dispatch(setUser(data.user));
-  return res;
-};
 
 export const logout = () => async (dispatch) => {
   const res = await csrfFetch("/api/session", {

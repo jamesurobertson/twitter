@@ -5,6 +5,7 @@ import Tweet from "../Tweet";
 
 const Feed = () => {
   const [loading, setLoading] = useState(true);
+  const [hi, setHi] = useState(true);
   const tweets = useSelector((state) =>
     state.entities.feed.map((id) => state.entities.tweets[id])
   );

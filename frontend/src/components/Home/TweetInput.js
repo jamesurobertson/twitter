@@ -2,12 +2,14 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postTweet } from "../../store/entitiesSlice";
 import { selectSessionUser } from "../../store/sessionSlice";
-import { EditorState } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import createMentionPlugin, {
   defaultSuggestionsFilter,
 } from "@draft-js-plugins/mention";
 import Editor from "@draft-js-plugins/editor";
 import "@draft-js-plugins/mention/lib/plugin.css";
+import "draft-js/dist/Draft.css";
+import { Link } from "react-router-dom";
 
 const TweetInput = () => {
   const [open, setOpen] = useState(true);
@@ -17,7 +19,6 @@ const TweetInput = () => {
   );
 
   const dispatch = useDispatch();
-  const ref = useRef();
   const sessionUser = useSelector(selectSessionUser);
 
   const { MentionSuggestions, plugins } = useMemo(() => {
@@ -34,6 +35,7 @@ const TweetInput = () => {
 
   const onSearchChange = useCallback(({ value }) => {
     console.log(value);
+
     if (value.length === 0) return setSuggestions([]);
     fetch(`/api/users/search/${value}`)
       .then((res) => res.json())
@@ -47,35 +49,47 @@ const TweetInput = () => {
       });
   }, []);
 
-  //   const submitHandler = (e) => {
-  //     e.preventDefault();
-  //     dispatch(postTweet({ content }));
-  //     setContent("");
-  //   };
+  const submitHandler = () => {
+    const contentState = editorState.getCurrentContent();
+    const raw = convertToRaw(contentState);
+    const data = JSON.stringify(raw);
+    dispatch(postTweet({ content: data }));
+  };
 
   return (
-    <div
-      className="flex p-2 border-solid border-2 border-blue-100 h-36"
-      onClick={() => ref.current.focus()}
-    >
-      <img
-        className="rounded-full w-11 h-11 object-cover mr-2"
-        src={sessionUser.profileImageUrl}
-        alt={sessionUser.username}
-      />
-      <Editor
-        editorKey="editor"
-        editorState={editorState}
-        onChange={setEditorState}
-        plugins={plugins}
-        ref={ref}
-      />
-      <MentionSuggestions
-        open={open}
-        onOpenChange={onOpenChange}
-        suggestions={suggestions}
-        onSearchChange={onSearchChange}
-      />
+    <div className="flex p-2 border-solid border-2 border-blue-100">
+      <div className="mr-2 h-20">
+        <img
+          className="rounded-full w-11 h-11 object-cover"
+          src={sessionUser.profileImageUrl}
+          alt={sessionUser.username}
+        />
+      </div>
+      <div className="w-full flex-col justify-between">
+        <div className="mb-4">
+          <Editor
+            editorKey="editor"
+            editorState={editorState}
+            onChange={setEditorState}
+            plugins={plugins}
+            placeholder="What's happening?"
+          />
+          <MentionSuggestions
+            open={open}
+            onOpenChange={onOpenChange}
+            suggestions={suggestions}
+            onSearchChange={onSearchChange}
+          />
+        </div>
+        <div className="flex justify-end w-full">
+          <button
+            className="p-2 bg-blue-100 hover:bg-blue-200 rounded-full border-solid"
+            onClick={submitHandler}
+          >
+            Tweet
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
