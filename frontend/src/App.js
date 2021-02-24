@@ -12,9 +12,10 @@ const App = () => {
 
   useEffect(() => {
     dispatch(restoreUser()).then((res) => {
-      // setting session slice, then adding the user into our entities.users slice of state
       setLoading(false);
+      // if there is no payload it means there is no user
       if (!res.payload) return;
+      // setting session slice, then adding the user into our entities.users slice of state
       dispatch(setUser(res.payload));
     });
   }, [dispatch]);

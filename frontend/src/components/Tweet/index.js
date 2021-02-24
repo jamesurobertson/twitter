@@ -1,46 +1,16 @@
-import { useState, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { timeSince } from "../../utils";
 import { Link } from "react-router-dom";
 import TweetActions from "./TweetActions";
-import { timeSince } from "../../utils";
+import ReadOnlyEditor from "../Draft/ReadOnlyEditor";
+import { useDispatch, useSelector } from "react-redux";
 import { selectSessionUser } from "../../store/sessionSlice";
-import createMentionPlugin from "@draft-js-plugins/mention";
 import { deleteLike, postLike } from "../../store/entitiesSlice";
-import {
-  EditorState,
-  convertFromRaw,
-  Editor,
-  CompositeDecorator,
-} from "draft-js";
-import flattenDeep from "lodash.flattendeep";
-import "draft-js/dist/Draft.css";
-import "@draft-js-plugins/mention/lib/plugin.css";
 
 const Tweet = ({ tweet }) => {
   const tweetUser = useSelector((state) => state.entities.users[tweet.userId]);
   const sessionUser = useSelector(selectSessionUser);
   const dispatch = useDispatch();
 
-  const { plugins } = useMemo(() => {
-    const mentionPlugin = createMentionPlugin();
-
-    const plugins = [mentionPlugin];
-    return { plugins };
-  }, []);
-
-  const [editorState, setEditorState] = useState(() => {
-    const savedState = JSON.parse(tweet.content);
-    const contentState = convertFromRaw(savedState);
-    const decorators = flattenDeep(plugins.map((plugin) => plugin.decorators));
-    const decorator = new CompositeDecorator(
-      decorators.filter((decorator, index) => index !== 1)
-    );
-    const newEditorState = EditorState.createWithContent(
-      contentState,
-      decorator
-    );
-    return newEditorState;
-  });
   const userLikes = tweet.likes.some((userId) => userId === sessionUser.id);
   const isSessions = sessionUser.id === tweet.userId;
 
@@ -74,12 +44,7 @@ const Tweet = ({ tweet }) => {
             </div>
           </Link>
           <div>
-            <Editor
-              editorState={editorState}
-              plugins={plugins}
-              readOnly={true}
-              onChange={setEditorState}
-            />
+            <ReadOnlyEditor content={tweet.content} />
           </div>
           <TweetActions
             likes={tweet.likes}
