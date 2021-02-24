@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postTweet } from "../../store/entitiesSlice";
+import { selectSessionUser } from "../../store/sessionSlice";
 import { EditorState } from "draft-js";
 import createMentionPlugin, {
   defaultSuggestionsFilter,
@@ -17,6 +18,7 @@ const TweetInput = () => {
 
   const dispatch = useDispatch();
   const ref = useRef();
+  const sessionUser = useSelector(selectSessionUser);
 
   const { MentionSuggestions, plugins } = useMemo(() => {
     const mentionPlugin = createMentionPlugin();
@@ -53,9 +55,14 @@ const TweetInput = () => {
 
   return (
     <div
-      className="p-2 border-solid border-2 border-black"
+      className="flex p-2 border-solid border-2 border-blue-100 h-36"
       onClick={() => ref.current.focus()}
     >
+      <img
+        className="rounded-full w-11 h-11 object-cover mr-2"
+        src={sessionUser.profileImageUrl}
+        alt={sessionUser.username}
+      />
       <Editor
         editorKey="editor"
         editorState={editorState}
