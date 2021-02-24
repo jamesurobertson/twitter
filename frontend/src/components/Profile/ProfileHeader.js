@@ -5,7 +5,15 @@ import ProfileExtras from "./ProfileExtras";
 import ProfileNames from "./ProfileNames";
 
 const ProfileHeader = ({ user }) => {
-  const { firstName, lastName, username, bio, follows, followers } = user;
+  const {
+    firstName,
+    lastName,
+    username,
+    bio,
+    follows,
+    followers,
+    website,
+  } = user;
   return (
     <div>
       <div>
@@ -19,7 +27,7 @@ const ProfileHeader = ({ user }) => {
           username={username}
         />
         <ProfileBio bio={bio} />
-        <ProfileExtras />
+        <ProfileExtras website={website} />
         <FollowCounts follows={follows} followers={followers} />
       </div>
     </div>
