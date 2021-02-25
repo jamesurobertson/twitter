@@ -14,13 +14,18 @@ const ProfileHeader = ({ user }) => {
     followers,
     website,
   } = user;
+
   return (
     <div>
       <div>
-        <img src={user.bannerImageUrl} alt="banner-img" />
+        <img
+          className="w-full h-48 object-cover"
+          src={user.bannerImageUrl}
+          alt="banner-img"
+        />
       </div>
       <div className="p-2">
-        <ProfileButtons />
+        <ProfileButtons user={user} />
         <ProfileNames
           firstName={firstName}
           lastName={lastName}

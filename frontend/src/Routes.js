@@ -31,12 +31,6 @@ const Routes = () => (
           <Route path="/profile/:userId">
             <Profile />
           </Route>
-          <Route path="/more">
-            <Home />
-          </Route>
-          <Route path="/*">
-            <Redirect to="/profile/1" />
-          </Route>
         </Switch>
       </div>
     </BrowserRouter>

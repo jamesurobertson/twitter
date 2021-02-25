@@ -91,7 +91,9 @@ const entitiesSlice = createSlice({
   },
   extraReducers: {
     [fetchTweets.fulfilled]: (state, { payload }) => {
-      return { ...state, ...payload.entities, feed: payload.result.tweets };
+      state.feed = payload.result.tweets;
+      state.users = { ...state.users, ...payload.entities.users };
+      state.tweets = { ...state.tweets, ...payload.entities.tweets };
     },
     [postTweet.fulfilled]: (state, { payload }) => {
       state.tweets = { ...state.tweets, ...payload.entities.tweets };

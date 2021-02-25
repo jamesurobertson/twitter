@@ -8,42 +8,32 @@ import Tweet from "../Tweet";
 import ProfileHeader from "./ProfileHeader";
 
 const Profle = () => {
-  const [loading, setLoading] = useState(true);
-  const [followsUser, setFollowsUser] = useState(null);
-  const [profileTweets, setProfileTweets] = useState([]);
-
   const { userId } = useParams();
+  const allTweets = useSelector((state) => state.entities.tweets);
+  const profileUser = useSelector((state) => state.entities.users[userId]);
   const dispatch = useDispatch();
 
-  const allTweets = useSelector((state) => state.entities.tweets);
-  const sessionUser = useSelector(selectSessionUser);
-  const profileUser = useSelector((state) => state.entities.users[userId]);
+  const [loading, setLoading] = useState(true);
+  const [profileTweets, setProfileTweets] = useState([]);
 
   useEffect(() => {
-    console.log("got user");
-    dispatch(getUser(userId)).then(() => setLoading(false));
+    console.log("new user");
+    dispatch(getUser(userId)).then(() => {
+      setLoading(false);
+    });
   }, [dispatch, userId]);
 
   useEffect(() => {
     // return early if userData hasn't loaded from previous useEffect
     if (loading) return;
 
-    // does sessionUser follow profileUser
-    const follows = profileUser.followers.includes(sessionUser.id);
-    setFollowsUser(follows);
-
     // Tweets of profileUser
-    const tweets = profileUser.Tweets.map((id) => allTweets[id]);
-    setProfileTweets(tweets);
-  }, [profileUser, sessionUser, allTweets, loading]);
-
-  const unfollowUser = () => {
-    dispatch(deleteFollow(profileUser.id));
-  };
-
-  const followUser = () => {
-    dispatch(postFollow(profileUser.id));
-  };
+    // TODO: Tweets aren't always there so need if statement. fix later
+    if (profileUser.Tweets) {
+      const tweets = profileUser.Tweets.map((id) => allTweets[id]);
+      setProfileTweets(tweets);
+    }
+  }, [profileUser, allTweets, loading]);
 
   if (loading) return null;
   if (!profileUser) return null;
@@ -51,11 +41,6 @@ const Profle = () => {
     <div>
       <MainHeader title={`${profileUser.username}'s Profile!`} />
       <ProfileHeader user={profileUser} />
-      {sessionUser.id !== Number(userId) && (
-        <button onClick={followsUser ? unfollowUser : followUser}>
-          {followsUser ? "Unfollow" : "Follow"} {profileUser.username}
-        </button>
-      )}
       {profileTweets.map((tweet) => (
         <Tweet key={tweet.id} tweet={tweet} />
       ))}

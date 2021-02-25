@@ -34,7 +34,7 @@ const Tweet = ({ tweet }) => {
           />
         </Link>
         <div className="w-full">
-          <Link className="flex" to={`${tweetUser.id}`}>
+          <Link className="flex" to={`/profile/${tweetUser.id}`}>
             <div className="font-bold hover:underline mr-1">
               {tweetUser.firstName || tweetUser.username}
             </div>

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import Login from "../pages/Login";
 import Landing from "../pages/Landing";
@@ -16,12 +16,6 @@ const Auth = () => (
       <Route exact path="/">
         <Landing />
       </Route>
-      <Route
-        path="/*"
-        render={() => {
-          return <Redirect to="/" />;
-        }}
-      />
     </Switch>
   </BrowserRouter>
 );
