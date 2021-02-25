@@ -8,12 +8,12 @@ import "@draft-js-plugins/mention/lib/plugin.css";
 import "draft-js/dist/Draft.css";
 
 const TweetInput = () => {
+  const dispatch = useDispatch();
+  const sessionUser = useSelector(selectSessionUser);
+
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-
-  const dispatch = useDispatch();
-  const sessionUser = useSelector(selectSessionUser);
 
   const submitHandler = () => {
     const contentState = editorState.getCurrentContent();

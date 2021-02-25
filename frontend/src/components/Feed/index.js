@@ -4,12 +4,14 @@ import { fetchTweets } from "../../store/entitiesSlice";
 import Tweet from "../Tweet";
 
 const Feed = () => {
-  const [loading, setLoading] = useState(true);
-  const tweets = useSelector((state) =>
-    state.entities.feed.map((id) => state.entities.tweets[id])
-  );
-  const sessionUserId = useSelector((state) => state.session.userId);
   const dispatch = useDispatch();
+  const tweets = useSelector((state) => {
+    return state.entities.feed.map((id) => state.entities.tweets[id]);
+  });
+  const sessionUserId = useSelector((state) => state.session.userId);
+
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     dispatch(fetchTweets()).then(() => setLoading(false));
   }, [dispatch]);

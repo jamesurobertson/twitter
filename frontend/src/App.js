@@ -6,9 +6,9 @@ import { setUser } from "./store/entitiesSlice";
 import Auth from "./components/Auth";
 
 const App = () => {
-  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const user = useSelector(selectSessionUser);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(restoreUser()).then((res) => {

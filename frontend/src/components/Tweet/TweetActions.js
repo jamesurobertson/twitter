@@ -5,10 +5,11 @@ import { deleteLike, postLike } from "../../store/entitiesSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const TweetActions = ({ likes, tweetId }) => {
+  const dispatch = useDispatch();
   const sessionUserId = useSelector((state) => state.session.userId);
+
   const userLikes = likes.some((userId) => userId === sessionUserId);
 
-  const dispatch = useDispatch();
   const toggleLike = () => {
     // TODO: learn about stopping action for slower connections so that you can't accidentally like more than once.
     if (userLikes) {

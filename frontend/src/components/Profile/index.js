@@ -8,9 +8,10 @@ import ProfileHeader from "./ProfileHeader";
 
 const Profle = () => {
   const { profileId } = useParams();
+
+  const dispatch = useDispatch();
   const allTweets = useSelector((state) => state.entities.tweets);
   const profileUser = useSelector((state) => state.entities.users[profileId]);
-  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
   const [profileTweets, setProfileTweets] = useState([]);

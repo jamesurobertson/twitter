@@ -1,9 +1,9 @@
 import { useState, useCallback, useMemo } from "react";
+import Mention from "./Mention";
+import Editor from "@draft-js-plugins/editor";
 import createMentionPlugin from "@draft-js-plugins/mention";
 import createHashtagPlugin from "@draft-js-plugins/hashtag";
 import createLinkifyPlugin from "@draft-js-plugins/linkify";
-import Editor from "@draft-js-plugins/editor";
-import Mention from "./Mention";
 import "@draft-js-plugins/mention/lib/plugin.css";
 import "@draft-js-plugins/hashtag/lib/plugin.css";
 import "@draft-js-plugins/linkify/lib/plugin.css";

@@ -1,21 +1,20 @@
 import { useState, useMemo } from "react";
-import createMentionPlugin from "@draft-js-plugins/mention";
-import createHashtagPlugin from "@draft-js-plugins/hashtag";
-import createLinkifyPlugin from "@draft-js-plugins/linkify";
-
+import { useHistory } from "react-router-dom";
+import flattenDeep from "lodash.flattendeep";
 import {
   EditorState,
   convertFromRaw,
   Editor,
   CompositeDecorator,
 } from "draft-js";
-import flattenDeep from "lodash.flattendeep";
-import "draft-js/dist/Draft.css";
+import createMentionPlugin from "@draft-js-plugins/mention";
+import createHashtagPlugin from "@draft-js-plugins/hashtag";
+import createLinkifyPlugin from "@draft-js-plugins/linkify";
 import "@draft-js-plugins/mention/lib/plugin.css";
 import "@draft-js-plugins/hashtag/lib/plugin.css";
+import "draft-js/dist/Draft.css";
 
 import Mention from "./Mention";
-import { useHistory } from "react-router-dom";
 
 const ReadOnlyEditor = ({ content }) => {
   const history = useHistory();

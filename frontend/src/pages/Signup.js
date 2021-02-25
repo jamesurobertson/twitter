@@ -4,13 +4,13 @@ import { Redirect } from "react-router-dom";
 import { selectSessionUser, signup } from "../store/sessionSlice";
 
 function Singup() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errors, setErrors] = useState([]);
   const dispatch = useDispatch();
   const sessionUser = useSelector(selectSessionUser);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [errors, setErrors] = useState([]);
+  const [email, setEmail] = useState("");
 
   if (sessionUser) return <Redirect to="/" />;
 

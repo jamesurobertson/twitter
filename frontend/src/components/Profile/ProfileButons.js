@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteFollow, postFollow } from "../../store/entitiesSlice";
 
 const ProfileButtons = ({ user }) => {
+  const dispatch = useDispatch();
   const sessionUserId = useSelector((state) => state.session.userId);
   const onSessionProfile = useSelector(
     (state) => user.id === state.session.userId
   );
-  const dispatch = useDispatch();
 
   const followsUser = user.followers.includes(sessionUserId);
 

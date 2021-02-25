@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import { AiOutlineHome } from "react-icons/ai";
 import { AiOutlineBell } from "react-icons/ai";
 import { AiOutlineMail } from "react-icons/ai";
@@ -5,7 +6,6 @@ import { AiOutlineUser } from "react-icons/ai";
 import { AiOutlineMore } from "react-icons/ai";
 import { BsHash } from "react-icons/bs";
 import { BsBookmark } from "react-icons/bs";
-import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { selectSessionUser } from "../../store/sessionSlice";
 import NavItem from "./NavItem";
