@@ -2,9 +2,7 @@ import { useState, useCallback, useMemo } from "react";
 import Mention from "./Mention";
 import Editor from "@draft-js-plugins/editor";
 import createMentionPlugin from "@draft-js-plugins/mention";
-import createHashtagPlugin, {
-  extractHashtagsWithIndices,
-} from "@draft-js-plugins/hashtag";
+import createHashtagPlugin from "@draft-js-plugins/hashtag";
 import createLinkifyPlugin from "@draft-js-plugins/linkify";
 import "@draft-js-plugins/mention/lib/plugin.css";
 import "@draft-js-plugins/hashtag/lib/plugin.css";
@@ -25,7 +23,6 @@ const DraftEditor = ({ editorState, setEditorState }) => {
     const hashtagPlugin = createHashtagPlugin();
     const linkifyPlugin = createLinkifyPlugin();
 
-    const {} = hashtagPlugin;
     const plugins = [mentionPlugin, hashtagPlugin, linkifyPlugin];
 
     return { plugins, MentionSuggestions };

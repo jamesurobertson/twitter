@@ -23,6 +23,20 @@ export const fetchTweets = createAsyncThunk("tweets/fetchAll", async () => {
   return { entities: { tweets, users }, result };
 });
 
+export const getHashTweets = createAsyncThunk(
+  "tweets/getHashTweets",
+  async (tag) => {
+    const res = await csrfFetch(`/api/tweets/hashtag/${tag}`);
+    const data = await res.json();
+
+    const normalized = normalize(data, {
+      tweets: [tweet],
+      users: [user],
+    });
+    return normalized;
+  }
+);
+
 export const postTweet = createAsyncThunk("tweets/postTweet", async (body) => {
   const res = await csrfFetch("/api/tweets", {
     method: "POST",
@@ -35,8 +49,8 @@ export const postTweet = createAsyncThunk("tweets/postTweet", async (body) => {
   return normalized;
 });
 
-export const getUser = createAsyncThunk("users/getUser", async (username) => {
-  const res = await csrfFetch(`/api/users/${username}`);
+export const getUser = createAsyncThunk("users/getUser", async (userId) => {
+  const res = await csrfFetch(`/api/users/${userId}`);
   const data = await res.json();
   const normalized = normalize(data.user, user);
   return normalized.entities;
@@ -94,6 +108,11 @@ const entitiesSlice = createSlice({
       state.feed = payload.result.tweets;
       state.users = { ...state.users, ...payload.entities.users };
       state.tweets = { ...state.tweets, ...payload.entities.tweets };
+    },
+    [getHashTweets.fulfilled]: (state, { payload }) => {
+      state.feed = payload.result.tweets;
+      state.users = { ...state.users, ...payload.entities.users };
+      state.tweets = { ...state.tweets, ...payload.entities.tweet };
     },
     [postTweet.fulfilled]: (state, { payload }) => {
       state.tweets = { ...state.tweets, ...payload.entities.tweets };

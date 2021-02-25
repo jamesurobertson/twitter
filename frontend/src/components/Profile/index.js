@@ -12,6 +12,7 @@ const Profile = () => {
   const dispatch = useDispatch();
   const allTweets = useSelector((state) => state.entities.tweets);
   const profileUser = useSelector((state) => state.entities.users[profileId]);
+  const feed = useSelector((state) => state.entities.feed);
 
   const [loading, setLoading] = useState(true);
   const [profileTweets, setProfileTweets] = useState([]);

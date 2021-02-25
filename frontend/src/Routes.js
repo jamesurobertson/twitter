@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Explore from "./components/Explore";
 import Notifications from "./components/Notifications";
 import Messages from "./components/Messages";
+import HashExplore from "./components/HashExplore";
 import Bookmarks from "./components/Bookmarks";
 import Profile from "./components/Profile";
 
@@ -16,8 +17,11 @@ const Routes = () => (
           <Route path="/home">
             <Home />
           </Route>
-          <Route path="/explore">
+          <Route path="/explore/">
             <Explore />
+          </Route>
+          <Route path="/hashtag/:hash">
+            <HashExplore />
           </Route>
           <Route path="/notifications">
             <Notifications />

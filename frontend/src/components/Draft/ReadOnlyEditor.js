@@ -34,7 +34,7 @@ const ReadOnlyEditor = ({ content }) => {
       const newProps = Object.assign(
         {
           onClick: () => {
-            history.push(`/explore/${props.decoratedText.slice(1)}`);
+            history.push(`/hashtag/${props.decoratedText.slice(1)}`);
           },
         },
         props

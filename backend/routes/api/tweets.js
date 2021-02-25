@@ -59,6 +59,29 @@ router.get(
   })
 );
 
+router.get(
+  "/hashtag/:tag",
+  asyncHandler(async (req, res) => {
+    const tag = req.params.tag;
+
+    const hashes = await Hashtag.findAll({
+      where: { tag, medium: "tweet" },
+      limit: 10,
+      order: [["id", "DESC"]],
+    });
+
+    const tweets = await Promise.all(
+      hashes.map((hash) =>
+        Tweet.findByPk(hash.mediumId, {
+          include: User,
+        })
+      )
+    );
+
+    res.json({ tweets });
+  })
+);
+
 // posting a tweet
 router.post(
   "/",
