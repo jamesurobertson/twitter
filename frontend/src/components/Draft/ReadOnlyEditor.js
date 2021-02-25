@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 import createMentionPlugin from "@draft-js-plugins/mention";
+import createHashtagPlugin from "@draft-js-plugins/hashtag";
+
 import {
   EditorState,
   convertFromRaw,
@@ -9,6 +11,8 @@ import {
 import flattenDeep from "lodash.flattendeep";
 import "draft-js/dist/Draft.css";
 import "@draft-js-plugins/mention/lib/plugin.css";
+import "@draft-js-plugins/hashtag/lib/plugin.css";
+
 import Mention from "./Mention";
 
 const ReadOnlyEditor = ({ content }) => {
@@ -17,8 +21,9 @@ const ReadOnlyEditor = ({ content }) => {
       mentionComponent: Mention,
       mentionPrefix: "@",
     });
-
-    return { plugins: [mentionPlugin] };
+    const hashtagPlugin = createHashtagPlugin();
+    const plugins = [mentionPlugin, hashtagPlugin];
+    return { plugins };
   }, []);
 
   const [editorState, setEditorState] = useState(() => {

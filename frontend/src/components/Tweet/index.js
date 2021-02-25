@@ -49,6 +49,7 @@ const Tweet = ({ tweet }) => {
           <TweetActions
             likes={tweet.likes}
             isSessions={isSessions}
+            sessionUserId={sessionUser.id}
             toggleLike={() => toggleLike(tweet.id)}
           />
         </div>
