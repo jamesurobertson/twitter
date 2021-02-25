@@ -7,9 +7,9 @@ import Tweet from "../Tweet";
 import ProfileHeader from "./ProfileHeader";
 
 const Profle = () => {
-  const { userId } = useParams();
+  const { profileId } = useParams();
   const allTweets = useSelector((state) => state.entities.tweets);
-  const profileUser = useSelector((state) => state.entities.users[userId]);
+  const profileUser = useSelector((state) => state.entities.users[profileId]);
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
@@ -17,10 +17,11 @@ const Profle = () => {
 
   useEffect(() => {
     console.log("new user");
-    dispatch(getUser(userId)).then(() => {
+    dispatch(getUser(profileId)).then(() => {
+      console.log(profileUser);
       setLoading(false);
     });
-  }, [dispatch, userId]);
+  }, [dispatch, profileId]);
 
   useEffect(() => {
     // return early if userData hasn't loaded from previous useEffect
@@ -28,7 +29,7 @@ const Profle = () => {
 
     // Tweets of profileUser
     // TODO: Tweets aren't always there so need if statement. fix later
-    if (profileUser.Tweets) {
+    if (profileUser?.Tweets) {
       const tweets = profileUser.Tweets.map((id) => allTweets[id]);
       setProfileTweets(tweets);
     }

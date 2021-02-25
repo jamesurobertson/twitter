@@ -39,6 +39,7 @@ export const getUser = createAsyncThunk("users/getUser", async (username) => {
   const res = await csrfFetch(`/api/users/${username}`);
   const data = await res.json();
   const normalized = normalize(data.user, user);
+  console.log(normalized.entities);
   return normalized.entities;
 });
 

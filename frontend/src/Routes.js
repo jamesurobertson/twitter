@@ -28,7 +28,7 @@ const Routes = () => (
           <Route path="/bookmarks">
             <Bookmarks />
           </Route>
-          <Route path="/profile/:userId">
+          <Route path="/profile/:profileId">
             <Profile />
           </Route>
         </Switch>
@@ -38,3 +38,5 @@ const Routes = () => (
 );
 
 export default Routes;
+
+
