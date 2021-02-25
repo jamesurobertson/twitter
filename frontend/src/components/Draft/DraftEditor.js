@@ -1,10 +1,12 @@
 import { useState, useCallback, useMemo } from "react";
 import createMentionPlugin from "@draft-js-plugins/mention";
 import createHashtagPlugin from "@draft-js-plugins/hashtag";
+import createLinkifyPlugin from "@draft-js-plugins/linkify";
 import Editor from "@draft-js-plugins/editor";
-import Mention from "../Draft/Mention";
+import Mention from "./Mention";
 import "@draft-js-plugins/mention/lib/plugin.css";
 import "@draft-js-plugins/hashtag/lib/plugin.css";
+import "@draft-js-plugins/linkify/lib/plugin.css";
 import "draft-js/dist/Draft.css";
 
 const DraftEditor = ({ editorState, setEditorState }) => {
@@ -16,10 +18,14 @@ const DraftEditor = ({ editorState, setEditorState }) => {
       mentionComponent: Mention,
       mentionPrefix: "@",
     });
+
     const hashtagPlugin = createHashtagPlugin();
+
     const { MentionSuggestions } = mentionPlugin;
 
-    const plugins = [mentionPlugin, hashtagPlugin];
+    const linkifyPlugin = createLinkifyPlugin();
+
+    const plugins = [mentionPlugin, hashtagPlugin, linkifyPlugin];
     return { plugins, MentionSuggestions };
   }, []);
 
