@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { postTweet } from "../../store/entitiesSlice";
 import { selectSessionUser } from "../../store/sessionSlice";
 import { EditorState, convertToRaw } from "draft-js";
+import { extractHashtagsWithIndices } from "@draft-js-plugins/hashtag";
 import DraftEditor from "../Draft/DraftEditor";
 import "@draft-js-plugins/mention/lib/plugin.css";
 import "draft-js/dist/Draft.css";
 
-const TweetInput = () => {
+const TweetBox = () => {
   const dispatch = useDispatch();
   const sessionUser = useSelector(selectSessionUser);
 
@@ -17,18 +18,21 @@ const TweetInput = () => {
 
   const submitHandler = () => {
     const contentState = editorState.getCurrentContent();
+    const lastBlock = contentState.getLastBlock();
+    const hashes = extractHashtagsWithIndices(lastBlock.text).map((hash) => ({
+      tag: hash.hashtag,
+      medium: "tweet",
+    }));
     const raw = convertToRaw(contentState);
     let mentionedUsers = [];
-    console.log(raw);
     for (let key in raw.entityMap) {
       const entity = raw.entityMap[key];
       if (entity.type === "mention") {
         mentionedUsers.push(entity.data.mention);
       }
     }
-    console.log(mentionedUsers);
     const data = JSON.stringify(raw);
-    dispatch(postTweet({ content: data, mentions: mentionedUsers }));
+    dispatch(postTweet({ content: data, mentions: mentionedUsers, hashes }));
   };
 
   return (
@@ -58,4 +62,4 @@ const TweetInput = () => {
   );
 };
 
-export default TweetInput;
+export default TweetBox;
