@@ -23,7 +23,12 @@ const ProfileButtons = ({ user }) => {
     }
   };
   return (
-    <div className="text-right h-8">
+    <div className="text-right h-8 relative mb-5">
+      <img
+        className="absolute w-32 object-fit rounded-full -top-20 border-2 border-white"
+        src={user.profileImageUrl}
+        alt="profile"
+      />
       <button
         className="border hover:bg-blue-200 rounded-full font-bold
       text-blue-400 p-2 mr-2 focus:outline-none"
