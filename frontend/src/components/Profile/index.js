@@ -18,7 +18,6 @@ const Profle = () => {
   useEffect(() => {
     console.log("new user");
     dispatch(getUser(profileId)).then(() => {
-      console.log(profileUser);
       setLoading(false);
     });
   }, [dispatch, profileId]);
