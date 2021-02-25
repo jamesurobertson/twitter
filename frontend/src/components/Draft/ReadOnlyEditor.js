@@ -15,7 +15,6 @@ import "@draft-js-plugins/mention/lib/plugin.css";
 import "@draft-js-plugins/hashtag/lib/plugin.css";
 
 import Mention from "./Mention";
-import Hashtag from "./Hashtag";
 import { useHistory } from "react-router-dom";
 
 const ReadOnlyEditor = ({ content }) => {
