@@ -18,14 +18,13 @@ const DraftEditor = ({ editorState, setEditorState }) => {
       mentionComponent: Mention,
       mentionPrefix: "@",
     });
-
-    const hashtagPlugin = createHashtagPlugin();
-
     const { MentionSuggestions } = mentionPlugin;
 
+    const hashtagPlugin = createHashtagPlugin();
     const linkifyPlugin = createLinkifyPlugin();
 
     const plugins = [mentionPlugin, hashtagPlugin, linkifyPlugin];
+
     return { plugins, MentionSuggestions };
   }, []);
 

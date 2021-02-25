@@ -2,26 +2,10 @@ import { timeSince } from "../../utils";
 import { Link } from "react-router-dom";
 import TweetActions from "./TweetActions";
 import ReadOnlyEditor from "../Draft/ReadOnlyEditor";
-import { useDispatch, useSelector } from "react-redux";
-import { selectSessionUser } from "../../store/sessionSlice";
-import { deleteLike, postLike } from "../../store/entitiesSlice";
+import { useSelector } from "react-redux";
 
 const Tweet = ({ tweet }) => {
   const tweetUser = useSelector((state) => state.entities.users[tweet.userId]);
-  const sessionUser = useSelector(selectSessionUser);
-  const dispatch = useDispatch();
-
-  const userLikes = tweet.likes.some((userId) => userId === sessionUser.id);
-  const isSessions = sessionUser.id === tweet.userId;
-
-  const toggleLike = (id) => {
-    // TODO: learn about stopping action for slower connections so that you can't accidentally like more than once.
-    if (userLikes) {
-      dispatch(deleteLike(id));
-    } else {
-      dispatch(postLike(id));
-    }
-  };
 
   return (
     <div className="flex-col border w-full p-3">
@@ -43,15 +27,8 @@ const Tweet = ({ tweet }) => {
               · {timeSince(tweet.createdAt)}
             </div>
           </Link>
-          <div>
-            <ReadOnlyEditor content={tweet.content} />
-          </div>
-          <TweetActions
-            likes={tweet.likes}
-            isSessions={isSessions}
-            sessionUserId={sessionUser.id}
-            toggleLike={() => toggleLike(tweet.id)}
-          />
+          <ReadOnlyEditor content={tweet.content} />
+          <TweetActions likes={tweet.likes} tweetId={tweet.id} />
         </div>
       </div>
     </div>

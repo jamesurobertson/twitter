@@ -19,6 +19,7 @@ const TweetInput = () => {
     const contentState = editorState.getCurrentContent();
     const raw = convertToRaw(contentState);
     let mentionedUsers = [];
+    console.log(raw);
     for (let key in raw.entityMap) {
       const entity = raw.entityMap[key];
       if (entity.type === "mention") {

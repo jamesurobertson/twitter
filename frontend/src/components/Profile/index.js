@@ -16,7 +16,6 @@ const Profle = () => {
   const [profileTweets, setProfileTweets] = useState([]);
 
   useEffect(() => {
-    console.log("new user");
     dispatch(getUser(profileId)).then(() => {
       setLoading(false);
     });
