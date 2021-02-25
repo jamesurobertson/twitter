@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { getUser } from "../../store/entitiesSlice";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import ProfileHeader from "./ProfileHeader";
 import MainHeader from "../MainHeader";
 import Tweet from "../Tweet";
-import ProfileHeader from "./ProfileHeader";
 
-const Profle = () => {
+const Profile = () => {
   const { profileId } = useParams();
 
   const dispatch = useDispatch();
@@ -17,13 +17,12 @@ const Profle = () => {
   const [profileTweets, setProfileTweets] = useState([]);
 
   useEffect(() => {
-    dispatch(getUser(profileId)).then(() => {
-      setLoading(false);
-    });
+    dispatch(getUser(profileId)).then(() => setLoading(false));
   }, [dispatch, profileId]);
 
   useEffect(() => {
     // return early if userData hasn't loaded from previous useEffect
+    // TODO: find better approach?
     if (loading) return;
 
     // Tweets of profileUser
@@ -37,14 +36,14 @@ const Profle = () => {
   if (loading) return null;
   if (!profileUser) return null;
   return (
-    <div>
+    <>
       <MainHeader title={`${profileUser.username}'s Profile!`} />
       <ProfileHeader user={profileUser} />
       {profileTweets.map((tweet) => (
         <Tweet key={tweet.id} tweet={tweet} />
       ))}
-    </div>
+    </>
   );
 };
 
-export default Profle;
+export default Profile;
