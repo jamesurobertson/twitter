@@ -12,27 +12,15 @@ const Profile = () => {
   const dispatch = useDispatch();
   const allTweets = useSelector((state) => state.entities.tweets);
   const profileUser = useSelector((state) => state.entities.users[profileId]);
-  const feed = useSelector((state) => state.entities.feed);
 
   const [loading, setLoading] = useState(true);
-  const [profileTweets, setProfileTweets] = useState([]);
 
+  // fetch user info
   useEffect(() => {
     dispatch(getUser(profileId)).then(() => setLoading(false));
   }, [dispatch, profileId]);
 
-  useEffect(() => {
-    // return early if userData hasn't loaded from previous useEffect
-    // TODO: find better approach?
-    if (loading) return;
-
-    // Tweets of profileUser
-    // TODO: Tweets aren't always there so need if statement. fix later
-    if (profileUser?.Tweets) {
-      const tweets = profileUser.Tweets.map((id) => allTweets[id]);
-      setProfileTweets(tweets);
-    }
-  }, [profileUser, allTweets, loading]);
+  const tweets = profileUser?.tweets?.map((tweetId) => allTweets[tweetId]);
 
   if (loading) return null;
   if (!profileUser) return null;
@@ -40,9 +28,7 @@ const Profile = () => {
     <>
       <MainHeader title={`${profileUser.username}'s Profile!`} />
       <ProfileHeader user={profileUser} />
-      {profileTweets.map((tweet) => (
-        <Tweet key={tweet.id} tweet={tweet} />
-      ))}
+      {tweets && tweets.map((tweet) => <Tweet key={tweet.id} tweet={tweet} />)}
     </>
   );
 };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getHashTweets } from "../../store/entitiesSlice";
+import MainHeader from "../MainHeader";
 import Tweet from "../Tweet";
 
 const HashExplore = () => {
@@ -12,6 +13,8 @@ const HashExplore = () => {
   const tweets = useSelector((state) => state.entities.tweets);
 
   const [loading, setLoading] = useState(true);
+
+  // fetches tweets that used the #hashtag
   useEffect(() => {
     dispatch(getHashTweets(hash)).then(() => setLoading(false));
   }, [dispatch, hash]);
@@ -19,10 +22,10 @@ const HashExplore = () => {
   if (loading) return null;
   return (
     <div>
-      {feed.map((id) => {
-        const tweet = tweets[id];
-        return <Tweet key={id} tweet={tweet} />;
-      })}
+      <MainHeader />
+      {feed.map((id) => (
+        <Tweet key={id} tweet={tweets[id]} />
+      ))}
     </div>
   );
 };

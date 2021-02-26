@@ -21,7 +21,7 @@ const tweet = new schema.Entity("tweets", { likes: [like] });
 const user = new schema.Entity("users", {
   follows: [follow],
   followers: [follower],
-  Tweets: [tweet],
+  tweets: [tweet],
 });
 
 export const schemas = { follow, follower, like, tweet, user };

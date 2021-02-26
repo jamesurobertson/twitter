@@ -161,7 +161,10 @@ module.exports = (sequelize, DataTypes) => {
       otherKey: "conversationId",
       foreignKey: "userId",
     });
-    User.hasMany(models.Tweet, { foreignKey: "userId" });
+    User.hasMany(models.Tweet, {
+      foreignKey: "userId",
+      as: "tweets",
+    });
     User.hasMany(models.Follow, {
       foreignKey: "userId",
       as: "follows",

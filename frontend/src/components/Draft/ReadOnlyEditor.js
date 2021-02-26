@@ -18,6 +18,7 @@ import Mention from "./Mention";
 
 const ReadOnlyEditor = ({ content }) => {
   const history = useHistory();
+
   const { plugins } = useMemo(() => {
     const mentionPlugin = createMentionPlugin({
       mentionComponent: Mention,

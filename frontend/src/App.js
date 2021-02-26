@@ -10,6 +10,7 @@ const App = () => {
   const user = useSelector(selectSessionUser);
   const [loading, setLoading] = useState(true);
 
+  // restores user from jwt cookies
   useEffect(() => {
     dispatch(restoreUser()).then((res) => {
       setLoading(false);

@@ -73,7 +73,7 @@ router.get(
     const tweets = await Promise.all(
       hashes.map((hash) =>
         Tweet.findByPk(hash.mediumId, {
-          include: User,
+          include: [User, "likes"],
         })
       )
     );

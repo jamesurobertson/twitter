@@ -110,9 +110,9 @@ const entitiesSlice = createSlice({
       state.tweets = { ...state.tweets, ...payload.entities.tweets };
     },
     [getHashTweets.fulfilled]: (state, { payload }) => {
-      state.feed = payload.result.tweets;
+      state.tweets = { ...state.tweets, ...payload.entities.tweets };
       state.users = { ...state.users, ...payload.entities.users };
-      state.tweets = { ...state.tweets, ...payload.entities.tweet };
+      state.feed = payload.result.tweets;
     },
     [postTweet.fulfilled]: (state, { payload }) => {
       state.tweets = { ...state.tweets, ...payload.entities.tweets };
