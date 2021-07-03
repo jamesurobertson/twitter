@@ -10,8 +10,11 @@ const Profile = () => {
   const { profileId } = useParams();
 
   const dispatch = useDispatch();
-  const allTweets = useSelector((state) => state.entities.tweets);
   const profileUser = useSelector((state) => state.entities.users[profileId]);
+  const tweets = useSelector((state) =>
+    profileUser?.tweets?.map((tweetId) => state.entities.tweets[tweetId])
+  );
+  const allTweets = useSelector((state) => state.entities.tweets);
 
   const [loading, setLoading] = useState(true);
 
@@ -20,15 +23,20 @@ const Profile = () => {
     dispatch(getUser(profileId)).then(() => setLoading(false));
   }, [dispatch, profileId]);
 
-  const tweets = profileUser?.tweets?.map((tweetId) => allTweets[tweetId]);
-
-  if (loading) return null;
-  if (!profileUser) return null;
+  if (loading || !profileUser) return null;
   return (
     <>
       <MainHeader title={`${profileUser.username}'s Profile!`} />
       <ProfileHeader user={profileUser} />
-      {tweets && tweets.map((tweet) => <Tweet key={tweet.id} tweet={tweet} />)}
+      {tweets &&
+        tweets.map((tweet) => (
+          <Tweet
+            key={tweet.id}
+            tweet={tweet}
+            retweet={allTweets[tweet.retweetId]}
+            isRetweet={tweet.retweetId}
+          />
+        ))}
     </>
   );
 };

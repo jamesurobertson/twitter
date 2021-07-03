@@ -33,7 +33,9 @@ const DraftEditor = ({ editorState, setEditorState }) => {
   }, []);
 
   const onSearchChange = useCallback(({ value }) => {
-    if (value.length === 0) return setSuggestions([]);
+    if (value.length === 0) {
+      return setSuggestions([]);
+    }
     fetch(`/api/users/search/${value}`)
       .then((res) => res.json())
       .then((data) => {
@@ -43,6 +45,8 @@ const DraftEditor = ({ editorState, setEditorState }) => {
           avatar: user.profileImageUrl,
           user,
         }));
+        console.log(newData);
+        console.log(value);
         setSuggestions(newData);
       });
   }, []);

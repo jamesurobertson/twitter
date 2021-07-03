@@ -8,7 +8,7 @@ import DraftEditor from "../Draft/DraftEditor";
 import "@draft-js-plugins/mention/lib/plugin.css";
 import "draft-js/dist/Draft.css";
 
-const TweetBox = () => {
+const TweetInput = () => {
   const dispatch = useDispatch();
   const sessionUser = useSelector(selectSessionUser);
 
@@ -62,4 +62,4 @@ const TweetBox = () => {
   );
 };
 
-export default TweetBox;
+export default TweetInput;

@@ -8,19 +8,21 @@ const { user, tweet } = schemas;
 export const fetchTweets = createAsyncThunk("tweets/fetchAll", async () => {
   const res = await csrfFetch("/api/tweets");
   const data = await res.json();
+  console.log(data);
   const normalized = normalize(data, {
     tweets: [tweet],
     users: [user],
+    retweets: [tweet],
   });
 
   // getting everything but follows, and followers from entities. We don't care
   // about those objects in our entities slice of state
   const {
-    entities: { tweets, users },
+    entities: { tweets, users, retweets },
     result,
   } = normalized;
 
-  return { entities: { tweets, users }, result };
+  return { entities: { tweets, users, retweets }, result };
 });
 
 export const getHashTweets = createAsyncThunk(
@@ -28,7 +30,7 @@ export const getHashTweets = createAsyncThunk(
   async (tag) => {
     const res = await csrfFetch(`/api/tweets/hashtag/${tag}`);
     const data = await res.json();
-
+    console.log(data);
     const normalized = normalize(data, {
       tweets: [tweet],
       users: [user],

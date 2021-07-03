@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Routes from "./Routes";
 import { useDispatch, useSelector } from "react-redux";
 import { restoreUser, selectSessionUser } from "./store/sessionSlice";
@@ -9,7 +9,6 @@ const App = () => {
   const dispatch = useDispatch();
   const user = useSelector(selectSessionUser);
   const [loading, setLoading] = useState(true);
-
   // restores user from jwt cookies
   useEffect(() => {
     dispatch(restoreUser()).then((res) => {
@@ -20,9 +19,7 @@ const App = () => {
       dispatch(setUser(res.payload));
     });
   }, [dispatch]);
-
   if (loading) return null;
-
   return user ? <Routes /> : <Auth />;
 };
 
