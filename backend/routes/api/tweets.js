@@ -13,7 +13,7 @@ const { Op } = require("sequelize");
 
 const router = express.Router();
 
-// Feed tweets, based off users you follow.
+// Feed tweets, based off users you follow. 
 router.get(
   "/",
   requireAuth,
@@ -33,12 +33,43 @@ router.get(
       },
       include: ["likes"],
     });
+
+    const retweets = [];
+    await Promise.all(
+      tweets.map(async (tweet, i) => {
+        tweet.dataValues.retweets = await Tweet.count({
+          where: { retweetId: tweet.id },
+        });
+        if (tweet.dataValues.retweetId) {
+          if (
+            ![...tweets, ...retweets].some(
+              (t) => t.id === tweet.dataValues.retweetId
+            )
+          ) {
+            retweets.push(
+              await Tweet.findByPk(tweet.retweetId, {
+                include: "likes",
+              })
+            );
+          }
+        }
+      })
+    );
+
+    await Promise.all(
+      retweets.map(async (tweet, i) => {
+        tweet.dataValues.retweets = await Tweet.count({
+          where: { retweetId: tweet.id },
+        });
+      })
+    );
+    console.log(retweets.length);
     const users = await Promise.all(
       [...new Set(tweets.map((tweet) => tweet.userId))].map((userId) =>
         User.findByPk(userId, { include: ["follows", "followers"] })
       )
     );
-    res.json({ tweets, users });
+    res.json({ tweets, users, retweets });
   })
 );
 
@@ -111,6 +142,24 @@ router.post(
     );
 
     res.json({ tweet, user });
+  })
+);
+
+//retweeting
+router.post(
+  "/retweet/:id",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const { user } = req;
+    const retweetId = parseInt(req.params.id);
+    const tweet = await Tweet.findByPk(retweetId);
+    const { content } = tweet;
+    const newTweet = await user.createTweet({
+      content,
+      retweetId: retweetId,
+    });
+    console.log(newTweet);
+    res.json(newTweet);
   })
 );
 
